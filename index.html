@@ -936,10 +936,19 @@
 
         /* AI vs AI+HCD Demo Styles */
         .ai-demo-section {
-            min-height: 100vh;
+            min-height: auto;
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             position: relative;
             padding: 80px 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ai-demo-section.expanded {
+            min-height: 100vh;
+        }
+
+        .ai-demo-section.full-expanded {
+            min-height: 120vh;
         }
 
         .demo-container {
@@ -1037,6 +1046,14 @@
         .loading-section {
             text-align: center;
             margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .loading-section.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .loading-section h3 {
@@ -1083,6 +1100,14 @@
             grid-template-columns: 1fr 1fr;
             gap: 40px;
             margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .comparison-container.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .response-panel {
@@ -1138,6 +1163,14 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .demo-cta.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .demo-cta h3 {
@@ -1974,6 +2007,7 @@ Your campaigns aren't converting because you're selling to strangers who don't t
             const loadingSection = document.getElementById('loadingSection');
             const comparisonContainer = document.getElementById('comparisonContainer');
             const demoCTA = document.getElementById('demoCTA');
+            const demoSection = document.querySelector('.ai-demo-section');
 
             challengeButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -1983,30 +2017,50 @@ Your campaigns aren't converting because you're selling to strangers who don't t
             });
 
             function startDemo(challengeIndex) {
-                // Hide challenge selector, show loading
+                // Phase 1: Expand section and show loading
+                demoSection.classList.add('expanded');
                 challengeSelector.style.display = 'none';
                 loadingSection.style.display = 'block';
+
+                // Animate loading section in
+                setTimeout(() => {
+                    loadingSection.classList.add('show');
+                }, 100);
 
                 // Start progress bars
                 setTimeout(() => {
                     const progressBars = document.querySelectorAll('.progress-fill');
                     progressBars.forEach(bar => bar.style.width = '100%');
-                }, 100);
+                }, 300);
 
-                // After loading, show comparison
+                // Phase 2: Show comparison and expand more
                 setTimeout(() => {
-                    loadingSection.style.display = 'none';
-                    comparisonContainer.style.display = 'grid';
+                    loadingSection.classList.remove('show');
+                    setTimeout(() => {
+                        loadingSection.style.display = 'none';
+                        comparisonContainer.style.display = 'grid';
+
+                        // Animate comparison in
+                        setTimeout(() => {
+                            comparisonContainer.classList.add('show');
+                        }, 100);
+                    }, 600);
 
                     typeText('rawResponse', demoResponses[challengeIndex].raw, 30);
                     setTimeout(() => {
                         typeText('hcdResponse', demoResponses[challengeIndex].hcd, 25);
                     }, 500);
 
-                    // Show CTA after responses are done
+                    // Phase 3: Show CTA and expand to full size
                     setTimeout(() => {
+                        demoSection.classList.add('full-expanded');
                         demoCTA.style.display = 'block';
-                        demoCTA.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        // Animate CTA in
+                        setTimeout(() => {
+                            demoCTA.classList.add('show');
+                            demoCTA.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 200);
                     }, 8000);
 
                 }, 3500);
