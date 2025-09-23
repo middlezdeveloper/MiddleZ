@@ -944,11 +944,12 @@
         }
 
         .ai-demo-section.expanded {
-            min-height: 100vh;
+            min-height: 80vh;
         }
 
         .ai-demo-section.full-expanded {
-            min-height: 120vh;
+            min-height: 80vh;
+            padding-bottom: 80px;
         }
 
         .demo-container {
@@ -2051,9 +2052,8 @@ Your campaigns aren't converting because you're selling to strangers who don't t
                         typeText('hcdResponse', demoResponses[challengeIndex].hcd, 25);
                     }, 500);
 
-                    // Phase 3: Show CTA and expand to full size
+                    // Phase 3: Show CTA without further expansion
                     setTimeout(() => {
-                        demoSection.classList.add('full-expanded');
                         demoCTA.style.display = 'block';
 
                         // Animate CTA in
