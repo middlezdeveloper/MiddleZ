@@ -934,6 +934,252 @@
         @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
 
+        /* AI vs AI+HCD Demo Styles */
+        .ai-demo-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            position: relative;
+            padding: 80px 0;
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .demo-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .demo-hero h2 {
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .demo-hero p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            color: #a855f7;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .challenge-selector {
+            margin-bottom: 60px;
+        }
+
+        .challenge-selector h3 {
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .challenge-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .challenge-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .challenge-btn:hover {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: rgba(124, 58, 237, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .challenge-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .challenge-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .loading-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .loading-section h3 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .loading-bars {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .loading-bar {
+            text-align: center;
+        }
+
+        .loading-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            transition: width 3s ease-out;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .response-panel {
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .response-panel.raw-ai {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border: 1px solid #475569;
+            color: #94a3b8;
+        }
+
+        .response-panel.hcd-ai {
+            background: linear-gradient(135deg, #7c3aed 0%, #f97316 100%);
+            border: 1px solid #a855f7;
+            color: white;
+        }
+
+        .panel-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-header h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .panel-tag {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .response-content {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .raw-ai .response-content {
+            font-family: 'Courier New', monospace;
+        }
+
+        .demo-cta {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-cta h3 {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .demo-cta p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+        }
+
+        /* AI Demo Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .demo-container { padding: 0 20px; }
+            .comparison-container { grid-template-columns: 1fr; gap: 20px; }
+            .loading-bars { grid-template-columns: 1fr; gap: 20px; }
+            .challenge-options { grid-template-columns: 1fr; }
+        }
+
         @media (max-width: 1024px) {
             .hero-container { grid-template-columns: 1fr; gap: 60px; text-align: center; }
             .approach-content { grid-template-columns: 1fr; gap: 60px; }
@@ -1039,6 +1285,73 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI vs AI+HCD Comparison Demo -->
+    <section class="ai-demo-section" id="ai-demo">
+        <div class="demo-container">
+            <div class="demo-hero">
+                <h2>Same AI. Different Human.</h2>
+                <p>See how Human-Centered Design transforms AI from generic to genius</p>
+                <div class="demo-badge">INTERACTIVE DEMO</div>
+            </div>
+
+            <div class="challenge-selector" id="challengeSelector">
+                <h3>Choose a business challenge:</h3>
+                <div class="challenge-options">
+                    <button class="challenge-btn" data-challenge="0">
+                        <span class="challenge-icon">📊</span>
+                        <span class="challenge-text">Dashboard feature isn't being used</span>
+                    </button>
+                    <button class="challenge-btn" data-challenge="1">
+                        <span class="challenge-icon">👥</span>
+                        <span class="challenge-text">Employee engagement scores declining</span>
+                    </button>
+                    <button class="challenge-btn" data-challenge="2">
+                        <span class="challenge-icon">📈</span>
+                        <span class="challenge-text">Marketing campaigns not converting</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="loading-section" id="loadingSection" style="display: none;">
+                <h3>Generating responses...</h3>
+                <div class="loading-bars">
+                    <div class="loading-bar raw-loading">
+                        <div class="loading-label">Standard AI</div>
+                        <div class="progress-bar"><div class="progress-fill"></div></div>
+                    </div>
+                    <div class="loading-bar hcd-loading">
+                        <div class="loading-label">Human-Centered AI</div>
+                        <div class="progress-bar"><div class="progress-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-container" id="comparisonContainer" style="display: none;">
+                <div class="response-panel raw-ai">
+                    <div class="panel-header">
+                        <h4>Standard AI Response</h4>
+                        <div class="panel-tag">Generic • Technical</div>
+                    </div>
+                    <div class="response-content" id="rawResponse"></div>
+                </div>
+
+                <div class="response-panel hcd-ai">
+                    <div class="panel-header">
+                        <h4>Human-Centered AI</h4>
+                        <div class="panel-tag">Empathetic • Strategic</div>
+                    </div>
+                    <div class="response-content" id="hcdResponse"></div>
+                </div>
+            </div>
+
+            <div class="demo-cta" id="demoCTA" style="display: none;">
+                <h3>Ready to transform your AI approach?</h3>
+                <p>See how Middle Z combines human insight with artificial intelligence</p>
+                <a href="#contact" class="cta-button">Start a Conversation</a>
             </div>
         </div>
     </section>
@@ -1546,6 +1859,177 @@
         const style = document.createElement('style');
         style.textContent = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`;
         document.head.appendChild(style);
+
+        // AI vs AI+HCD Demo Functionality
+        const demoResponses = {
+            0: { // Dashboard feature
+                raw: `Dashboard Feature Adoption Strategy:
+
+• Improve onboarding flow with tutorials
+• Add tooltips and help guides
+• Launch email campaigns
+• Track usage metrics
+• A/B test layouts
+• Provide support training
+• Create documentation
+• Collect user feedback`,
+
+                hcd: `🎯 The Human Truth: Change Disrupts Comfort
+
+Your customers aren't avoiding your dashboard because it's bad—they're avoiding change because it feels risky.
+
+💡 The Insight:
+Features don't fail because they're broken.
+They fail because they disrupt comfort.
+
+🛠️ The Human-Centered Approach:
+
+**Phase 1: Shadow & Understand**
+→ Watch 5 users navigate current system
+→ Map emotional journey (frustration → success)
+→ Find their "comfort anchors"
+
+**Phase 2: Bridge, Don't Replace**
+→ Design familiar transition moments
+→ Show immediate personal value
+→ Celebrate small wins loudly
+
+**Result: 67% adoption vs industry 23%**`
+            },
+            1: { // Employee engagement
+                raw: `Employee Engagement Improvement Plan:
+
+• Conduct engagement surveys
+• Implement recognition programs
+• Improve communication channels
+• Offer professional development
+• Review compensation packages
+• Enhance work-life balance
+• Team building activities
+• Exit interview analysis`,
+
+                hcd: `🎯 The Human Reality: People Don't Leave Jobs, They Leave Feelings
+
+Low engagement isn't about perks or pay—it's about purpose and psychological safety.
+
+💡 The Emotional Truth:
+→ Disengagement = Disconnection from meaning
+→ People need to matter, not just perform
+→ Recognition hits different when it's personal
+
+🛠️ The Human-Centered Strategy:
+
+**Week 1: Listen Like You Mean It**
+→ 1-on-1s focused on feelings, not tasks
+→ "What makes you excited to wake up?"
+→ Map the invisible emotional workplace
+
+**Week 2: Micro-Moments of Mattering**
+→ Celebrate progress, not just outcomes
+→ Connect daily work to bigger purpose
+→ Make appreciation specific and timely
+
+**Result: 43% engagement increase in 90 days**`
+            },
+            2: { // Marketing conversion
+                raw: `Marketing Campaign Optimization:
+
+• Analyze conversion funnel data
+• A/B test different messaging
+• Improve landing page design
+• Optimize ad targeting
+• Refine email sequences
+• Test different CTAs
+• Analyze competitor strategies
+• Increase budget allocation`,
+
+                hcd: `🎯 The Human Challenge: Trust Takes Time
+
+Your campaigns aren't converting because you're selling to strangers who don't trust strangers.
+
+💡 The Connection Gap:
+→ Features tell, stories sell
+→ Logic makes them think, emotion makes them buy
+→ People buy from people they understand
+
+🛠️ The Human-Centered Campaign:
+
+**Phase 1: Find Your Humans**
+→ Interview 10 happy customers about their journey
+→ Map the emotional transformation story
+→ Identify the "aha moment" trigger
+
+**Phase 2: Speak Their Language**
+→ Lead with the feeling they want
+→ Use their words, not yours
+→ Show the life change, not the feature list
+
+**Result: 156% conversion increase**`
+            }
+        };
+
+        function initializeAIDemo() {
+            const challengeButtons = document.querySelectorAll('.challenge-btn');
+            const challengeSelector = document.getElementById('challengeSelector');
+            const loadingSection = document.getElementById('loadingSection');
+            const comparisonContainer = document.getElementById('comparisonContainer');
+            const demoCTA = document.getElementById('demoCTA');
+
+            challengeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const challengeIndex = parseInt(button.dataset.challenge);
+                    startDemo(challengeIndex);
+                });
+            });
+
+            function startDemo(challengeIndex) {
+                // Hide challenge selector, show loading
+                challengeSelector.style.display = 'none';
+                loadingSection.style.display = 'block';
+
+                // Start progress bars
+                setTimeout(() => {
+                    const progressBars = document.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => bar.style.width = '100%');
+                }, 100);
+
+                // After loading, show comparison
+                setTimeout(() => {
+                    loadingSection.style.display = 'none';
+                    comparisonContainer.style.display = 'grid';
+
+                    typeText('rawResponse', demoResponses[challengeIndex].raw, 30);
+                    setTimeout(() => {
+                        typeText('hcdResponse', demoResponses[challengeIndex].hcd, 25);
+                    }, 500);
+
+                    // Show CTA after responses are done
+                    setTimeout(() => {
+                        demoCTA.style.display = 'block';
+                        demoCTA.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 8000);
+
+                }, 3500);
+            }
+
+            function typeText(elementId, text, speed) {
+                const element = document.getElementById(elementId);
+                element.innerHTML = '';
+                let index = 0;
+
+                function type() {
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    }
+                }
+                type();
+            }
+        }
+
+        // Initialize the AI demo when the page loads
+        document.addEventListener('DOMContentLoaded', initializeAIDemo);
     </script>
 </body>
 </html>
