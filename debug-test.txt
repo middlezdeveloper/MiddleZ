@@ -1,3 +1,0 @@
-This is a debug test file to verify FTP deployment location.
-Created at: $(date)
-If you see this file, the deployment is working but going to the wrong location.
