@@ -1,0 +1,5 @@
+﻿{
+  "Description": "Domain ownership verification file for Microsoft 365 - place in the website root",
+  "Domain": "middlez.com",
+  "Id": "019ee76f-5adc-4c2a-b166-347c4557988f"
+}

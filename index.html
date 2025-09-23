@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Middle Z - Innovation rooted in people, scaled by technology</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #0a0a0a;
+            overflow-x: hidden;
+            background: #fafafa;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #4f46e5, #7c3aed); border-radius: 2px; }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0a0a0a;
+            text-decoration: none;
+            letter-spacing: -1.5px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover { transform: scale(1.05); }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle:hover { background: rgba(0, 0, 0, 0.05); }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #0a0a0a;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 1px;
+        }
+
+        .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .nav-toggle.active span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 80px 40px;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .nav-menu.active { right: 0; box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3); }
+
+        .nav-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .nav-close:hover { background: rgba(255, 255, 255, 0.1); transform: rotate(90deg); }
+
+        .nav-links {
+            list-style: none;
+            margin-bottom: 60px;
+        }
+
+        .nav-links li {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.4s ease;
+        }
+
+        .nav-menu.active .nav-links li { opacity: 1; transform: translateX(0); }
+        .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+        .nav-links li:nth-child(2) { transition-delay: 0.2s; }
+        .nav-links li:nth-child(3) { transition-delay: 0.3s; }
+        .nav-links li:nth-child(4) { transition-delay: 0.4s; }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            display: block;
+            padding: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover { color: #4f46e5; transform: translateX(10px); }
+
+        .nav-info {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.5s;
+        }
+
+        .nav-menu.active .nav-info { opacity: 1; transform: translateY(0); }
+
+        .nav-info h4 {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .nav-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .nav-contact {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: 2px solid #0a0a0a;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #0a0a0a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-btn:hover { background: #0a0a0a; color: white; transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 100px;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.4) 0%, rgba(79, 70, 229, 0.2) 100%),
+                        url('./images/hero-collaboration.jpg?v=2') center/cover;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(250, 250, 250, 0.95) 0%, rgba(240, 240, 240, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content { animation: fadeInLeft 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hero-visual { position: relative; animation: fadeInRight 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        .hero h1 {
+            font-size: clamp(32px, 6vw, 72px);
+            font-weight: 800;
+            color: #0a0a0a;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero-subline {
+            font-size: clamp(18px, 2.5vw, 24px);
+            color: #4a5568;
+            margin-bottom: 24px;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            color: #718096;
+            margin-bottom: 32px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .cta-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4); }
+        .cta-primary:hover::before { left: 100%; }
+
+        .visual-container { position: relative; height: 500px; }
+
+        .visual-card {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+
+        .visual-card:nth-child(1) { top: 50px; left: 50px; width: 240px; animation: float 6s ease-in-out infinite; }
+        .visual-card:nth-child(2) { top: 200px; right: 30px; width: 220px; animation: float 6s ease-in-out infinite 2s; }
+        .visual-card:nth-child(3) { bottom: 80px; left: 100px; width: 220px; animation: float 6s ease-in-out infinite 4s; }
+
+        .visual-card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15); }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .card-content { flex: 1; min-width: 0; }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: #718096;
+            line-height: 1.3;
+        }
+
+        .section { padding: 100px 0; position: relative; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section-header.visible { opacity: 1; transform: translateY(0); }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 800;
+            color: #0a0a0a;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .section-subtitle {
+            font-size: clamp(18px, 4vw, 20px);
+            color: #4a5568;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card.visible { opacity: 1; transform: translateY(0); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12); border-color: rgba(79, 70, 229, 0.1); }
+
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .service-card p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .approach {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(79, 70, 229, 0.6) 100%),
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80') center/cover;
+        }
+
+        .approach::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(250, 250, 250, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .approach-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .approach-text {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .approach-text.visible { opacity: 1; transform: translateX(0); }
+
+        .exclusive-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .approach h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            color: #0a0a0a;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+            line-height: 1.2;
+        }
+
+        .approach p {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 24px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .approach-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 25px;
+            background: rgba(79, 70, 229, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover { transform: translateY(-5px); background: rgba(79, 70, 229, 0.08); }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #4f46e5;
+            display: block;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-text { display: flex; flex-direction: column; gap: 40px; }
+
+        .about-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .about-card.visible { opacity: 1; transform: translateY(0); }
+        .about-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); }
+
+        .about-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .about-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .about-card p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .about-values {
+            background: rgba(79, 70, 229, 0.02);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .about-values.visible { opacity: 1; transform: translateX(0); }
+
+        .about-values h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .values-grid { display: flex; flex-direction: column; gap: 25px; }
+
+        .value-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .value-item:hover { transform: translateX(10px); box-shadow: 0 5px 20px rgba(79, 70, 229, 0.1); }
+
+        .value-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .value-item h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 4px;
+        }
+
+        .value-item p {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .testimonials {
+            position: relative;
+            color: white;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            background-image: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('./images/testimonials-workspace.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="white" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .testimonial-card.visible { opacity: 1; transform: translateY(0); }
+        .testimonial-card:hover { transform: translateY(-8px); background: rgba(255, 255, 255, 0.08); border-color: rgba(79, 70, 229, 0.3); }
+
+        .testimonial-popup {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .testimonial-popup::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #4f46e5;
+        }
+
+        .testimonial-card:hover .testimonial-popup { transform: translateX(-50%) scale(1); }
+
+        .testimonial-quote {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .testimonial-author { display: flex; align-items: center; gap: 15px; }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .author-info h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .author-info p { font-size: 14px; color: rgba(255, 255, 255, 0.7); }
+
+        .contact { background: #fafafa; position: relative; }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .contact-info {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-info.visible { opacity: 1; transform: translateX(0); }
+
+        .contact h2 {
+            font-size: clamp(36px, 5vw, 54px);
+            font-weight: 800;
+            color: #0a0a0a;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .contact-subtitle {
+            font-size: 20px;
+            color: #4a5568;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover { transform: translateX(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-form.visible { opacity: 1; transform: translateX(0); }
+        .form-group { margin-bottom: 25px; }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px 20px;
+            background: #f9fafb;
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            color: #0a0a0a;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-group textarea { resize: vertical; min-height: 120px; }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 5px;
+            min-height: 20px;
+            display: block;
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .form-status {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .form-status.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .form-status.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4); }
+        .submit-btn:hover::before { left: 100%; }
+
+        footer {
+            background: #0a0a0a;
+            padding: 80px 0 40px;
+            color: white;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 60px;
+        }
+
+        .footer-section h4 { font-size: 18px; font-weight: 700; margin-bottom: 25px; color: white; }
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 12px; }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover { color: #4f46e5; transform: translateX(5px); }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p { color: #6b7280; font-size: 14px; }
+
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+
+        @media (max-width: 1024px) {
+            .hero-container { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+            .approach-content { grid-template-columns: 1fr; gap: 60px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 60px; }
+            .about-content { grid-template-columns: 1fr; gap: 50px; }
+            .about-text { gap: 30px; }
+            .about-card { padding: 30px 25px; }
+            .about-values { padding: 30px 25px; transform: translateX(0); }
+            .values-grid { gap: 20px; }
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-btn { display: none; }
+            .nav-toggle { display: flex; }
+            .nav-container { padding: 20px; }
+            .nav-menu { width: 100vw; right: -100vw; }
+            .nav-menu.active { right: 0; }
+            .hero { padding-top: 120px; }
+            .hero-container, .container { padding: 0 20px; }
+            .services-grid { grid-template-columns: 1fr; gap: 25px; }
+            .service-card { padding: 35px 25px; }
+            .testimonials-grid { grid-template-columns: 1fr; gap: 30px; }
+            .contact-form { padding: 35px 25px; }
+            .footer-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .visual-container { height: 300px; overflow: visible; }
+            .visual-card { transform: scale(0.8); position: absolute; padding: 20px 16px; }
+            .visual-card:nth-child(1) { top: 20px; left: 10px; width: 200px; }
+            .visual-card:nth-child(2) { top: 120px; right: 10px; width: 180px; }
+            .visual-card:nth-child(3) { bottom: 30px; left: 30px; width: 200px; }
+            .card-content { min-width: 120px; }
+            .card-title { font-size: 13px; white-space: nowrap; }
+            .card-desc { font-size: 11px; line-height: 1.2; }
+            .approach-stats { grid-template-columns: 1fr; gap: 20px; }
+            .hero h1 { font-size: clamp(28px, 8vw, 48px); }
+            .hero-subline { font-size: clamp(16px, 4vw, 20px); }
+        }
+
+        @media (min-width: 769px) {
+            .nav-toggle { display: none; }
+            .menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Middle Z</a>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <button class="menu-btn" id="menuBtn">Menu</button>
+        </div>
+    </nav>
+
+    <div class="nav-menu" id="navMenu">
+        <button class="nav-close" id="navClose">×</button>
+        <ul class="nav-links">
+            <li><a href="#services">What We Do</a></li>
+            <li><a href="#approach">Our Approach</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-info">
+            <h4>Ready to Start?</h4>
+            <p>We work with select organisations each year. Let's explore if we're the right fit for your challenge.</p>
+            <a href="#contact" class="nav-contact">Get in Touch →</a>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Complex challenges.<br>Human-centred solutions.</h1>
+                <p class="hero-subline">We partner with select organisations to design strategies, shape technologies, and build solutions that put people at the centre — and performance at the core.</p>
+                <p class="hero-description">Innovation rooted in people, scaled by technology.</p>
+                <a href="#contact" class="cta-primary">Start a Conversation <span>→</span></a>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-container">
+                    <div class="visual-card">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-content">
+                            <div class="card-title">Strategy</div>
+                            <div class="card-desc">Human-centered approaches</div>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="card-icon">🔧</div>
+                        <div class="card-content">
+                            <div class="card-title">Technology</div>
+                            <div class="card-desc">Purpose-built solutions</div>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="card-icon">📈</div>
+                        <div class="card-content">
+                            <div class="card-title">Performance</div>
+                            <div class="card-desc">Measurable outcomes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What We Do</h2>
+                <p class="section-subtitle">Middle Z works at the intersection of strategy, technology, and human-centred design. We help leaders and teams navigate complexity with clarity.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Strategy</h3>
+                    <p>Ideating and problem solving strategies to plan, clarify and counsel for business and brand growth. Discovering digital opportunities and insights, that will provide better business solutions.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Technology</h3>
+                    <p>Developing digital environments for scalability, accessibility and autonomy. Frameworks designed to simplify management of data, speed and connection of information.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Design</h3>
+                    <p>Using human-centred design methodology to solve customer complexities. Design innovative and customised interactions to delight users with memorable experiences.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Performance</h3>
+                    <p>Improving exposure, conversion and revenue for long-term growth. Elevating results through constant optimisation and omnichannel marketing.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Culture</h3>
+                    <p>Develop high-performance cultures and teams that thrive in complexity. Balance innovation with execution and individual growth with collective success.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Partnership</h3>
+                    <p>Co-create pathways that fit your unique context, challenges, and aspirations. No off-the-shelf answers — every solution is crafted specifically for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section approach" id="approach">
+        <div class="container">
+            <div class="approach-content">
+                <div class="approach-text">
+                    <div class="exclusive-badge">Selective Partnership</div>
+                    <h2>Middle Z is not for everyone</h2>
+                    <p>We work with a select group of partners each year, ensuring focus, clarity, and meaningful outcomes. Our approach blends deep strategy, human-centred thinking, and cutting-edge technology.</p>
+                    <p>We partner with organisations tackling complex problems where technology, people, and performance must align. Our clients are leaders who believe technology should be a <strong>force for good</strong>.</p>
+                    <div class="approach-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Partners per year</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3x</span>
+                            <span class="stat-label">Average ROI</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Client retention</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">18mo</span>
+                            <span class="stat-label">Avg partnership</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="approach-visual">
+                    <div class="visual-container">
+                        <div class="visual-card">
+                            <div class="card-icon">🧠</div>
+                            <div class="card-content">
+                                <div class="card-title">Strategic Thinking</div>
+                                <div class="card-desc">Deep analysis meets practical action</div>
+                            </div>
+                        </div>
+                        <div class="visual-card">
+                            <div class="card-icon">⚡</div>
+                            <div class="card-content">
+                                <div class="card-title">Rapid Execution</div>
+                                <div class="card-desc">From concept to launch</div>
+                            </div>
+                        </div>
+                        <div class="visual-card">
+                            <div class="card-icon">🔄</div>
+                            <div class="card-content">
+                                <div class="card-title">Continuous Evolution</div>
+                                <div class="card-desc">Adapt, learn, improve</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About Middle Z</h2>
+                <p class="section-subtitle">We're a strategy and design partner built for complexity. We believe the most powerful solutions are human-centred, technology-enabled, and delivered with performance in mind.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="about-card">
+                        <div class="about-icon">🎯</div>
+                        <h3>Our Mission</h3>
+                        <p>To bridge the gap between human needs and technological possibilities. We exist to help organizations navigate complexity with clarity, ensuring that innovation serves people first and performance follows naturally.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">⚡</div>
+                        <h3>Our Approach</h3>
+                        <p>We don't believe in one-size-fits-all solutions. Every challenge is unique, every organization has its own culture, and every solution must be crafted to fit. We co-create pathways that honor your context while driving meaningful change.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">🌟</div>
+                        <h3>Our Promise</h3>
+                        <p>When you work with Middle Z, you're not just getting consultants or developers. You're getting strategic partners who are invested in your success and committed to creating solutions that last.</p>
+                    </div>
+                </div>
+                <div class="about-values">
+                    <h3>Our Values</h3>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <div class="value-icon">👥</div>
+                            <h4>Human-Centred</h4>
+                            <p>Every solution starts and ends with people</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">🔧</div>
+                            <h4>Technology-Enabled</h4>
+                            <p>Purpose-built tools that solve real problems</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">📈</div>
+                            <h4>Performance-Driven</h4>
+                            <p>Measurable outcomes that matter</p>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">🤝</div>
+                            <h4>Partnership-Based</h4>
+                            <p>Collaborative relationships built to last</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" style="color: white;">What Partners Say</h2>
+                <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.8);">Trusted by leaders who value human-centred innovation and measurable results.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-popup">Transformative</div>
+                    <div class="testimonial-quote">"Middle Z transformed how we think about technology. Their human-centred approach didn't just solve our immediate challenge — it fundamentally changed our culture."</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info">
+                            <h4>Sarah Mitchell</h4>
+                            <p>Chief Innovation Officer, TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-popup">Game-Changing</div>
+                    <div class="testimonial-quote">"Working with Middle Z was like having a strategic partner who truly understood both our business needs and our people. The results speak for themselves."</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MJ</div>
+                        <div class="author-info">
+                            <h4>Marcus Johnson</h4>
+                            <p>CEO, GrowthLabs</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-popup">Exceptional</div>
+                    <div class="testimonial-quote">"They don't just deliver solutions — they deliver solutions that last. The strategic foundation they built continues to drive our success two years later."</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <h4>Anna López</h4>
+                            <p>VP Strategy, HealthFirst</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Have a challenge worth solving?</h2>
+                    <p class="contact-subtitle">We'd love to hear about it. Let's explore how we can work together to create solutions that put people at the centre and performance at the core.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Email Us</h4>
+                                <p style="color: #6b7280;">hello@middlez.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🌍</div>
+                            <div>
+                                <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Global Reach</h4>
+                                <p style="color: #6b7280;">Working with leaders worldwide</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required aria-describedby="name-error">
+                        <div class="error-message" id="name-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required aria-describedby="email-error">
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" name="organization" aria-describedby="organization-error">
+                        <div class="error-message" id="organization-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="challenge">Tell us about your challenge *</label>
+                        <textarea id="challenge" name="challenge" placeholder="What complex problem are you trying to solve?" required aria-describedby="challenge-error"></textarea>
+                        <div class="error-message" id="challenge-error"></div>
+                    </div>
+                    <button type="submit" class="submit-btn" aria-describedby="submit-status">Send Message</button>
+                    <div class="form-status" id="submit-status" aria-live="polite"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Middle Z</h4>
+                <p style="color: #9ca3af; font-size: 15px; line-height: 1.6;">Innovation rooted in people, scaled by technology. We partner with select organisations to solve complex challenges.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Strategy & Planning</a></li>
+                    <li><a href="#services">Technology Solutions</a></li>
+                    <li><a href="#services">Human-Centred Design</a></li>
+                    <li><a href="#services">Culture Development</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#approach">Our Approach</a></li>
+                    <li><a href="#testimonials">Client Stories</a></li>
+                    <li><a href="#contact">Work With Us</a></li>
+                    <li><a href="#contact">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#contact">hello@middlez.com</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Insights Blog</a></li>
+                    <li><a href="#contact">Work With Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Middle Z. All rights reserved. • Privacy Policy • Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function toggleMenu() {
+                const navMenu = document.getElementById('navMenu');
+                const navToggle = document.querySelector('.nav-toggle');
+                const isActive = navMenu.classList.contains('active');
+                
+                if (isActive) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                } else {
+                    navMenu.classList.add('active');
+                    navToggle.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            const navToggle = document.getElementById('navToggle');
+            const menuBtn = document.getElementById('menuBtn');
+            const navClose = document.getElementById('navClose');
+            
+            if (navToggle) navToggle.addEventListener('click', toggleMenu);
+            if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if (navClose) navClose.addEventListener('click', toggleMenu);
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    const navMenu = document.getElementById('navMenu');
+                    const navToggle = document.querySelector('.nav-toggle');
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-header, .service-card, .testimonial-card, .approach-text, .approach-visual, .contact-info, .contact-form, .about-card, .about-values').forEach(el => {
+            observer.observe(el);
+        });
+
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.15}s`;
+        });
+
+        const aboutCards = document.querySelectorAll('.about-card');
+        aboutCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.2}s`;
+        });
+
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        testimonialCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.2}s`;
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                nav.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const statusDiv = document.getElementById('submit-status');
+            const originalText = submitBtn.textContent;
+            
+            function clearFormErrors() {
+                document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                document.querySelectorAll('.form-group input, .form-group textarea').forEach(el => {
+                    el.classList.remove('error');
+                });
+            }
+
+            function validateForm(data) {
+                const errors = [];
+                
+                if (!data.name || data.name.length < 2) {
+                    errors.push({ field: 'name', message: 'Name must be at least 2 characters' });
+                }
+                
+                if (!data.email) {
+                    errors.push({ field: 'email', message: 'Email is required' });
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+                    errors.push({ field: 'email', message: 'Please enter a valid email address' });
+                }
+                
+                if (!data.challenge || data.challenge.length < 10) {
+                    errors.push({ field: 'challenge', message: 'Please describe your challenge (at least 10 characters)' });
+                }
+                
+                return errors;
+            }
+
+            function displayFormErrors(errors) {
+                errors.forEach(error => {
+                    const field = document.getElementById(error.field);
+                    const errorDiv = document.getElementById(error.field + '-error');
+                    
+                    if (field && errorDiv) {
+                        field.classList.add('error');
+                        errorDiv.textContent = error.message;
+                    }
+                });
+            }
+
+            clearFormErrors();
+            
+            const formData = {
+                name: this.querySelector('#name').value.trim(),
+                email: this.querySelector('#email').value.trim(),
+                organization: this.querySelector('#organization').value.trim(),
+                challenge: this.querySelector('#challenge').value.trim()
+            };
+            
+            const errors = validateForm(formData);
+            if (errors.length > 0) {
+                displayFormErrors(errors);
+                return;
+            }
+            
+            submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⟳</span> Sending...';
+            submitBtn.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+            submitBtn.disabled = true;
+            statusDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('contact-form.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    submitBtn.innerHTML = '✓ Message Sent!';
+                    submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    
+                    statusDiv.textContent = result.message || 'Thank you! We\'ll get back to you soon.';
+                    statusDiv.className = 'form-status success';
+                    statusDiv.style.display = 'block';
+                    
+                    this.style.transform = 'scale(1.02)';
+                    this.style.boxShadow = '0 25px 80px rgba(16, 185, 129, 0.2)';
+                    
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.background = 'linear-gradient(135deg, #4f46e5, #7c3aed)';
+                        submitBtn.disabled = false;
+                        this.style.transform = 'scale(1)';
+                        this.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.08)';
+                        this.reset();
+                        statusDiv.style.display = 'none';
+                    }, 4000);
+                } else {
+                    throw new Error(result.error || 'Server error');
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                
+                submitBtn.innerHTML = '✗ Error - Try Again';
+                submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                
+                statusDiv.textContent = 'Sorry, there was an error sending your message. Please try again or email us directly.';
+                statusDiv.className = 'form-status error';
+                statusDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.background = 'linear-gradient(135deg, #4f46e5, #7c3aed)';
+                    submitBtn.disabled = false;
+                }, 3000);
+            }
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
