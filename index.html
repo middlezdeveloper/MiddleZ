@@ -1205,6 +1205,34 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
         }
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .reset-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .reset-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: white;
+            transform: translateY(-1px);
+        }
 
         /* AI Demo Mobile Responsive Styles */
         @media (max-width: 1024px) {
@@ -1358,7 +1386,7 @@
                         <div class="progress-bar"><div class="progress-fill"></div></div>
                     </div>
                     <div class="loading-bar hcd-loading">
-                        <div class="loading-label">Human-Centered AI</div>
+                        <div class="loading-label">AI Enabled Human Centred Design</div>
                         <div class="progress-bar"><div class="progress-fill"></div></div>
                     </div>
                 </div>
@@ -1375,7 +1403,7 @@
 
                 <div class="response-panel hcd-ai">
                     <div class="panel-header">
-                        <h4>Human-Centered AI</h4>
+                        <h4>AI Enabled Human Centred Design</h4>
                         <div class="panel-tag">Empathetic • Strategic</div>
                     </div>
                     <div class="response-content" id="hcdResponse"></div>
@@ -1385,7 +1413,10 @@
             <div class="demo-cta" id="demoCTA" style="display: none;">
                 <h3>Ready to transform your AI approach?</h3>
                 <p>See how Middle Z combines human insight with artificial intelligence</p>
-                <a href="#contact" class="cta-button">Start a Conversation</a>
+                <div class="cta-buttons">
+                    <a href="#contact" class="cta-button">Start a Conversation</a>
+                    <button class="reset-button" onclick="resetDemo()">Try Another Example</button>
+                </div>
             </div>
         </div>
     </section>
@@ -1906,29 +1937,35 @@
 • A/B test layouts
 • Provide support training
 • Create documentation
-• Collect user feedback`,
+• Collect user feedback
 
-                hcd: `🎯 The Human Truth: Change Disrupts Comfort
+**Typical Result:** 6-month implementation cycle testing multiple solutions simultaneously. Initial 15% adoption improvement, but plateau after 3 months as core issues remain unaddressed. Requires constant iteration without clear direction.`,
 
-Your customers aren't avoiding your dashboard because it's bad—they're avoiding change because it feels risky.
+                hcd: `🔍 **Double Diamond Discovery: Define the Real Problem**
 
-💡 The Insight:
-Features don't fail because they're broken.
-They fail because they disrupt comfort.
+Most assume low adoption = bad UX. We dig deeper using your existing data.
 
-🛠️ The Human-Centered Approach:
+**Data Sources We'd Analyze:**
+→ Support ticket transcripts (friction points)
+→ User interaction tracking (exact actions, flow patterns, drop-off points)
+→ Customer success call transcripts (their actual language)
+→ Market-leading dashboard analysis (best-in-world inspiration, trend identification)
 
-**Phase 1: Shadow & Understand**
-→ Watch 5 users navigate current system
-→ Map emotional journey (frustration → success)
-→ Find their "comfort anchors"
+**Rapid Research Phase:**
+→ Semi-structured interviews with 8-12 current users (initial validation)
+→ AI theme extraction from transcripts
+→ Co-creation iteration: Does this validate our thesis? Do we need quantitative follow-up?
+→ Impact/urgency matrix to prioritize pain points
 
-**Phase 2: Bridge, Don't Replace**
-→ Design familiar transition moments
-→ Show immediate personal value
-→ Celebrate small wins loudly
+**Co-Creation Workshops:**
+→ Highly curated cross-functional team sessions
+→ Low-fidelity prototyping with actual users
+→ Test and validate before production build
+→ Deliver working design as part of process
 
-**Result: 67% adoption vs industry 23%**`
+**The Real Insight:** Your data + co-creation process tells us the real problem. We prototype solutions to prove they work before you invest in full development.
+
+**Result: Evidence-based solutions with validated designs ready for production**`
             },
             1: { // Employee engagement
                 raw: `Employee Engagement Improvement Plan:
@@ -1940,30 +1977,34 @@ They fail because they disrupt comfort.
 • Review compensation packages
 • Enhance work-life balance
 • Team building activities
-• Exit interview analysis`,
+• Exit interview analysis
 
-                hcd: `🎯 The Human Reality: People Don't Leave Jobs, They Leave Feelings
+**Typical Result:** $50K+ spent on initiatives that show temporary 8% engagement lift, then decline. High effort, low impact because surface-level symptoms addressed rather than root causes. Team fatigue from constant "new programs."`,
 
-Low engagement isn't about perks or pay—it's about purpose and psychological safety.
+                hcd: `🔍 **Double Diamond: Understand the Friction**
 
-💡 The Emotional Truth:
-→ Disengagement = Disconnection from meaning
-→ People need to matter, not just perform
-→ Recognition hits different when it's personal
+Engagement surveys tell you symptoms, not causes. We analyze existing data streams to understand what's really happening.
 
-🛠️ The Human-Centered Strategy:
+**Underutilized Data We'd Mine:**
+→ Engagement survey trends (existing patterns + frequency optimization)
+→ Meeting participation patterns (AI transcript analysis for dominant voices)
+→ Internal tool usage data (workflow friction identification)
+→ Exit interview transcripts (AI theme extraction)
 
-**Week 1: Listen Like You Mean It**
-→ 1-on-1s focused on feelings, not tasks
-→ "What makes you excited to wake up?"
-→ Map the invisible emotional workplace
+**Rapid Primary Research:**
+→ Semi-structured interviews with high/low performers
+→ AI processing to identify misalignment patterns
+→ Implement new data collection if gaps exist (right frequency + depth)
 
-**Week 2: Micro-Moments of Mattering**
-→ Celebrate progress, not just outcomes
-→ Connect daily work to bigger purpose
-→ Make appreciation specific and timely
+**Co-Creation Solutions:**
+→ Full workforce workshops (2 days, highly curated)
+→ Impact/urgency matrix prioritization
+→ Low-fidelity prototyping of cultural interventions
+→ Test solutions before full implementation
 
-**Result: 43% engagement increase in 90 days**`
+**The Middle Z Difference:** We don't guess what motivates your people—your internal data tells us. Then we co-create and prototype solutions with the actual humans affected.
+
+**Result: Validated engagement strategies with proven effectiveness**`
             },
             2: { // Marketing conversion
                 raw: `Marketing Campaign Optimization:
@@ -1975,30 +2016,34 @@ Low engagement isn't about perks or pay—it's about purpose and psychological s
 • Refine email sequences
 • Test different CTAs
 • Analyze competitor strategies
-• Increase budget allocation`,
+• Increase budget allocation
 
-                hcd: `🎯 The Human Challenge: Trust Takes Time
+**Typical Result:** Endless testing cycles with marginal 2-5% improvements. Budget increases mask fundamental positioning problems. 3+ months of optimization without breakthrough results because messaging misses emotional drivers.`,
 
-Your campaigns aren't converting because you're selling to strangers who don't trust strangers.
+                hcd: `🔍 **Double Diamond: Define the True Conversion Barrier**
 
-💡 The Connection Gap:
-→ Features tell, stories sell
-→ Logic makes them think, emotion makes them buy
-→ People buy from people they understand
+Low conversion isn't a creative problem—it's a positioning problem. We analyze what customers actually say vs. what you think they want.
 
-🛠️ The Human-Centered Campaign:
+**Proprietary Data Analysis:**
+→ Customer call transcripts (their actual language)
+→ Marketing funnel metrics (CPM, CPC, CPA patterns and drop-off analysis)
+→ Landing page behavior data (scroll depth, click patterns, checkout abandonment)
+→ Competitor messaging analysis (AI-processed from ads/content)
+→ Implement tracking systems if monitoring gaps exist
 
-**Phase 1: Find Your Humans**
-→ Interview 10 happy customers about their journey
-→ Map the emotional transformation story
-→ Identify the "aha moment" trigger
+**Rapid Market Research:**
+→ Semi-structured interviews with prospects + customers
+→ AI theme extraction: motivations vs. barriers
+→ Competitive differentiation mapping
 
-**Phase 2: Speak Their Language**
-→ Lead with the feeling they want
-→ Use their words, not yours
-→ Show the life change, not the feature list
+**Co-Creation Strategy:**
+→ Cross-functional workshops (sales, marketing, product)
+→ Low-fidelity campaign prototyping with real prospects
+→ Test and validate messaging before full rollout
 
-**Result: 156% conversion increase**`
+**The Insight:** Your existing customer data + funnel analytics reveal exactly where prospects drop off and why. We prototype solutions to prove conversion improvements before you invest in full campaigns.
+
+**Result: Evidence-based campaigns with validated messaging and optimized conversion paths**`
             }
         };
 
@@ -2047,9 +2092,9 @@ Your campaigns aren't converting because you're selling to strangers who don't t
                         }, 100);
                     }, 600);
 
-                    typeText('rawResponse', demoResponses[challengeIndex].raw, 30);
+                    typeText('rawResponse', demoResponses[challengeIndex].raw, 15);
                     setTimeout(() => {
-                        typeText('hcdResponse', demoResponses[challengeIndex].hcd, 25);
+                        typeText('hcdResponse', demoResponses[challengeIndex].hcd, 15);
                     }, 500);
 
                     // Phase 3: Show CTA without further expansion
@@ -2065,6 +2110,7 @@ Your campaigns aren't converting because you're selling to strangers who don't t
                 }, 3500);
             }
 
+
             function typeText(elementId, text, speed) {
                 const element = document.getElementById(elementId);
                 element.innerHTML = '';
@@ -2079,6 +2125,50 @@ Your campaigns aren't converting because you're selling to strangers who don't t
                 }
                 type();
             }
+        }
+
+        // Global reset function for the demo
+        function resetDemo() {
+            const resetButton = event.target;
+            const originalText = resetButton.textContent;
+
+            // Add loading state
+            resetButton.textContent = 'Resetting...';
+            resetButton.disabled = true;
+
+            const demoSection = document.getElementById('ai-demo');
+            const challengeSelector = document.getElementById('challengeSelector');
+            const loadingSection = document.getElementById('loadingSection');
+            const comparisonContainer = document.getElementById('comparisonContainer');
+            const demoCTA = document.getElementById('demoCTA');
+            const rawResponse = document.getElementById('rawResponse');
+            const hcdResponse = document.getElementById('hcdResponse');
+
+            // Reset all sections to initial state
+            demoSection.classList.remove('expanded');
+            challengeSelector.style.display = 'block';
+            loadingSection.style.display = 'none';
+            comparisonContainer.style.display = 'none';
+            comparisonContainer.classList.remove('show');
+            demoCTA.style.display = 'none';
+            demoCTA.classList.remove('show');
+
+            // Clear response content
+            rawResponse.innerHTML = '';
+            hcdResponse.innerHTML = '';
+
+            // Reset loading bars
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => bar.style.width = '0%');
+
+            // Smooth scroll back to demo start and restore button
+            demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Restore button after a short delay
+            setTimeout(() => {
+                resetButton.textContent = originalText;
+                resetButton.disabled = false;
+            }, 1000);
         }
 
         // Initialize the AI demo when the page loads
