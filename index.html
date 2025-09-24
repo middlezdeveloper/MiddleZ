@@ -1707,11 +1707,30 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Desktop-only: Close mobile menu when clicking outside (if it's accidentally opened on desktop)
+            document.addEventListener('click', function(e) {
+                // Only run on desktop screens
+                if (window.innerWidth > 768) {
+                    const navMenu = document.getElementById('navMenu');
+                    const navToggle = document.querySelector('.nav-toggle');
+                    const menuBtn = document.getElementById('menuBtn');
+
+                    if (navMenu && navMenu.classList.contains('active') &&
+                        !navMenu.contains(e.target) &&
+                        (!navToggle || !navToggle.contains(e.target)) &&
+                        (!menuBtn || !menuBtn.contains(e.target))) {
+                        navMenu.classList.remove('active');
+                        if (navToggle) navToggle.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            });
+
             function toggleMenu() {
                 const navMenu = document.getElementById('navMenu');
                 const navToggle = document.querySelector('.nav-toggle');
                 const isActive = navMenu.classList.contains('active');
-                
+
                 if (isActive) {
                     navMenu.classList.remove('active');
                     navToggle.classList.remove('active');
@@ -1719,7 +1738,10 @@
                 } else {
                     navMenu.classList.add('active');
                     navToggle.classList.add('active');
-                    document.body.style.overflow = 'hidden';
+                    // Only prevent scrolling on mobile, allow scrolling on desktop
+                    if (window.innerWidth <= 768) {
+                        document.body.style.overflow = 'hidden';
+                    }
                 }
             }
 
