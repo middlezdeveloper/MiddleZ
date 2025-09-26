@@ -501,7 +501,7 @@
 
         .stat-label {
             font-size: 14px;
-            color: #4a5568;
+            color: white;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -1272,7 +1272,7 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #8b2bde 0%, #C6F432 100%);
+            background: linear-gradient(135deg, #7c3aed 0%, #f97316 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -1328,22 +1328,22 @@
         }
 
         .iterative-chart .path-iterative {
-            stroke: #C6F432 !important;
+            stroke: url(#iterativeStroke) !important;
             stroke-width: 4 !important;
             fill: none !important;
             stroke-linecap: round;
             stroke-linejoin: round;
-            filter: drop-shadow(0 0 20px rgba(198, 244, 50, 0.5));
+            filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.5));
             opacity: 1 !important;
         }
 
         .iterative-chart .path-bigbuild {
-            stroke: #FF4757 !important;
+            stroke: #94a3b8 !important;
             stroke-width: 4 !important;
             fill: none !important;
             stroke-linecap: round;
             stroke-linejoin: round;
-            filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.3));
+            filter: drop-shadow(0 0 20px rgba(148, 163, 184, 0.3));
             opacity: 1 !important;
         }
 
@@ -1367,22 +1367,22 @@
         }
 
         .path-iterative {
-            stroke: #C6F432;
+            stroke: url(#iterativeStroke);
             stroke-width: 3;
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
-            filter: drop-shadow(0 0 20px rgba(198, 244, 50, 0.5));
+            filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.5));
         }
 
         .path-bigbuild {
-            stroke: #FF4757;
+            stroke: #94a3b8;
             stroke-width: 3;
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-dasharray: 10, 5;
-            filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.3));
+            filter: drop-shadow(0 0 20px rgba(148, 163, 184, 0.3));
         }
 
         .milestone {
@@ -1402,23 +1402,22 @@
         }
 
         .milestone-iterative {
-            fill: #C6F432;
             stroke: #0a0a0a;
             stroke-width: 2;
         }
 
         .milestone-iterative:hover {
-            filter: drop-shadow(0 0 15px #C6F432);
+            filter: drop-shadow(0 0 15px #f97316);
         }
 
         .milestone-bigbuild {
-            fill: #FF4757;
+            fill: #94a3b8;
             stroke: #0a0a0a;
             stroke-width: 2;
         }
 
         .milestone-bigbuild:hover {
-            filter: drop-shadow(0 0 15px #FF4757);
+            filter: drop-shadow(0 0 15px #94a3b8);
         }
 
         .tooltip {
@@ -1440,11 +1439,15 @@
         }
 
         .tooltip-title.iterative {
-            color: #C6F432;
+            background: linear-gradient(135deg, #a855f7 0%, #ea580c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #f97316;
         }
 
         .tooltip-title.bigbuild {
-            color: #FF4757;
+            color: #94a3b8;
         }
 
         .tooltip-content {
@@ -1474,13 +1477,13 @@
         }
 
         .legend-color.iterative {
-            background: #C6F432;
-            box-shadow: 0 0 10px rgba(198, 244, 50, 0.5);
+            background: linear-gradient(135deg, #7c3aed 0%, #f97316 100%);
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
         }
 
         .legend-color.bigbuild {
-            background: #FF4757;
-            box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+            background: #94a3b8;
+            box-shadow: 0 0 10px rgba(148, 163, 184, 0.3);
         }
 
         .stats-section {
@@ -1501,17 +1504,19 @@
         }
 
         .iterative-chart .stat-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.12);
             border-radius: 16px;
             padding: 20px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .iterative-chart .stat-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .stat-value {
@@ -1521,16 +1526,20 @@
         }
 
         .stat-iterative {
-            color: #C6F432;
+            background: linear-gradient(135deg, #a855f7 0%, #ea580c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #f97316;
         }
 
         .stat-bigbuild {
-            color: #FF4757;
+            color: #94a3b8;
         }
 
         .insight-box {
-            background: linear-gradient(135deg, rgba(139, 43, 222, 0.1), rgba(198, 244, 50, 0.1));
-            border: 1px solid rgba(198, 244, 50, 0.3);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(249, 115, 22, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 16px;
             padding: 25px;
             text-align: left;
@@ -1542,7 +1551,11 @@
             font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 10px;
-            color: #C6F432;
+            background: linear-gradient(135deg, #a855f7 0%, #ea580c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #f97316;
         }
 
         .insight-text {
@@ -1846,7 +1859,7 @@
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color iterative"></div>
-                    <span>Iterative Approach (Vibe Viable)</span>
+                    <span>Iterative Approach (Our Approach)</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color bigbuild"></div>
@@ -1861,6 +1874,18 @@
                         <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
                             <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
                         </pattern>
+                        <linearGradient id="iterativeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="iterativeStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+                        </linearGradient>
+                        <radialGradient id="iterativeFill" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+                        </radialGradient>
                     </defs>
                     <rect width="1000" height="500" fill="url(#grid)" />
 
@@ -2757,6 +2782,20 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
         const scaleX = (value) => 50 + (value / 10) * 900;
         const scaleY = (value, maxY) => 450 - (value / maxY) * 400;
 
+        // Color interpolation function for gradient positioning
+        function interpolateColor(progress) {
+            // Purple: #7c3aed (124, 58, 237)
+            // Orange: #f97316 (249, 115, 22)
+            const purple = { r: 124, g: 58, b: 237 };
+            const orange = { r: 249, g: 115, b: 22 };
+
+            const r = Math.round(purple.r + (orange.r - purple.r) * progress);
+            const g = Math.round(purple.g + (orange.g - purple.g) * progress);
+            const b = Math.round(purple.b + (orange.b - purple.b) * progress);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
         // Draw path
         function drawPath(data, className, maxY, withAnimation = false) {
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -2799,6 +2838,12 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
                 const timeProgress = point.x / 10;
                 const delay = timeProgress * animationDuration;
 
+                // Apply position-based color for iterative milestones
+                if (className === 'milestone-iterative') {
+                    const positionColor = interpolateColor(timeProgress);
+                    circle.setAttribute('fill', positionColor);
+                }
+
                 // Only animate if withAnimation is true, otherwise show immediately
                 if (withAnimation) {
                     setTimeout(() => {
@@ -2831,7 +2876,12 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
                 }
 
                 text.setAttribute('text-anchor', 'middle');
-                text.setAttribute('fill', className === 'milestone-iterative' ? '#C6F432' : '#FF4757');
+                if (className === 'milestone-iterative') {
+                    const positionColor = interpolateColor(timeProgress);
+                    text.setAttribute('fill', positionColor);
+                } else {
+                    text.setAttribute('fill', '#94a3b8');
+                }
                 text.setAttribute('font-size', '12');
                 text.setAttribute('font-weight', '600');
                 text.textContent = point.label;
