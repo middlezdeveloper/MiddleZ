@@ -1413,6 +1413,7 @@
             transform: scale(0);
         }
 
+
         .milestone.animate-in {
             animation: milestoneAppear 0.5s ease forwards;
         }
@@ -1606,6 +1607,22 @@
             }
         }
 
+        @keyframes milestoneAppearFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .milestone.animate-from-bottom {
+            animation: milestoneAppearFromBottom 0.6s ease-out forwards;
+        }
+
+
         @keyframes pulse {
             0% {
                 transform: scale(1);
@@ -1666,6 +1683,12 @@
             .chart-header .section-title { font-size: 1.8rem; }
             .chart-wrapper { height: 400px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+            /* Mobile chart improvements for touch interaction */
+            .milestone {
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
             .footer-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
             .visual-container { height: 300px; overflow: visible; }
             .visual-card { transform: scale(0.85); position: absolute; padding: 20px 16px; }
@@ -2794,8 +2817,12 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
         let currentView = 'time-cost';
         let svg, pathsGroup, milestonesGroup, tooltip;
 
-        // Scale functions
-        const scaleX = (value) => 50 + (value / 10) * 900;
+        // Animation approach: 'sync' for synchronized appearance, 'fly' for fly from line start
+        const ANIMATION_APPROACH = 'sync';
+
+        // Scale functions (maxX will be set dynamically per chart view)
+        let currentMaxX = 10;
+        const scaleX = (value) => 50 + (value / currentMaxX) * 900;
         const scaleY = (value, maxY) => 450 - (value / maxY) * 400;
 
         // Color interpolation function for gradient positioning
@@ -2844,14 +2871,20 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
             const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             const animationDuration = 3000;
 
+            // Get the starting Y position for this line (first data point)
+            const lineStartY = scaleY(data[0].y, maxY);
+
             data.forEach((point, i) => {
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', scaleX(point.x));
                 circle.setAttribute('cy', scaleY(point.y, maxY));
-                circle.setAttribute('r', '8');
+
+                // Responsive radius for mobile touch targets
+                const isMobile = window.innerWidth <= 768;
+                circle.setAttribute('r', isMobile ? '12' : '8');
                 circle.setAttribute('class', `milestone ${className}`);
 
-                const timeProgress = point.x / 10;
+                const timeProgress = point.x / currentMaxX;
                 const delay = timeProgress * animationDuration;
 
                 // Apply position-based color for iterative milestones
@@ -2863,13 +2896,14 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
                 // Only animate if withAnimation is true, otherwise show immediately
                 if (withAnimation) {
                     setTimeout(() => {
-                        circle.classList.add('animate-in');
+                        circle.classList.add('animate-from-bottom');
                     }, delay);
                 } else {
                     // Show immediately without animation
                     circle.classList.add('animate-in');
                 }
 
+                // Mouse events
                 circle.addEventListener('mouseenter', function(e) {
                     e.stopPropagation();
                     showTooltip(e, point, className);
@@ -2880,15 +2914,46 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
                     hideTooltip();
                 });
 
+                // Touch events for mobile feedback
+                circle.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                    circle.style.transform = 'scale(1.2)';
+                    circle.style.transition = 'transform 0.1s ease';
+                }, { passive: true });
+
+                circle.addEventListener('touchend', function(e) {
+                    e.stopPropagation();
+                    setTimeout(() => {
+                        circle.style.transform = 'scale(1)';
+                    }, 100);
+
+                    // Show tooltip on touch
+                    const touch = e.changedTouches[0];
+                    const fakeEvent = {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    };
+                    showTooltip(fakeEvent, point, className);
+
+                    // Hide tooltip after 3 seconds on mobile
+                    setTimeout(hideTooltip, 3000);
+                }, { passive: true });
+
+                circle.addEventListener('touchcancel', function(e) {
+                    circle.style.transform = 'scale(1)';
+                }, { passive: true });
+
                 group.appendChild(circle);
 
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', scaleX(point.x));
 
+                // Mobile-responsive positioning with more spacing
+                const labelOffset = isMobile ? 20 : 15;
                 if (currentView === 'risk' && className === 'milestone-iterative') {
-                    text.setAttribute('y', scaleY(point.y, maxY) + 25);
+                    text.setAttribute('y', scaleY(point.y, maxY) + (isMobile ? 30 : 25));
                 } else {
-                    text.setAttribute('y', scaleY(point.y, maxY) - 15);
+                    text.setAttribute('y', scaleY(point.y, maxY) - labelOffset);
                 }
 
                 text.setAttribute('text-anchor', 'middle');
@@ -2898,8 +2963,10 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
                 } else {
                     text.setAttribute('fill', '#94a3b8');
                 }
-                text.setAttribute('font-size', '12');
-                text.setAttribute('font-weight', '600');
+
+                // Responsive font sizing and weight for mobile
+                text.setAttribute('font-size', isMobile ? '14' : '12');
+                text.setAttribute('font-weight', isMobile ? '700' : '600');
                 text.textContent = point.label;
 
                 // Only animate text opacity if withAnimation is true
@@ -2983,10 +3050,18 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
                 yAxisLabel.textContent = axisLabels[view];
             }
 
+            // Calculate dynamic X and Y ranges for full width usage
+            const maxX = Math.max(
+                ...data.iterative.map(d => d.x),
+                ...data.bigbuild.map(d => d.x)
+            );
             const maxY = Math.max(
                 ...data.iterative.map(d => d.y),
                 ...data.bigbuild.map(d => d.y)
             ) * 1.1;
+
+            // Update global maxX for scaling functions
+            currentMaxX = maxX;
 
             // Create and append paths
             const iterativePath = drawPath(data.iterative, 'path-iterative', maxY, triggerAnimation);
