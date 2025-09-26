@@ -1415,7 +1415,7 @@
 
 
         .milestone.animate-in {
-            animation: milestoneAppear 0.4s ease-out forwards;
+            animation: dotAppearInPlace 0.4s ease-out forwards;
         }
 
         .milestone:hover {
@@ -1596,7 +1596,8 @@
             animation: drawPath 3s ease forwards;
         }
 
-        @keyframes milestoneAppear {
+        /* Dot animation - appear in place only, no flying - v2.1 */
+        @keyframes dotAppearInPlace {
             from {
                 opacity: 0;
                 transform: scale(0.3);
@@ -1608,7 +1609,7 @@
         }
 
         .milestone.animate-from-bottom {
-            animation: milestoneAppear 0.4s ease-out forwards;
+            animation: dotAppearInPlace 0.4s ease-out forwards;
         }
 
 
