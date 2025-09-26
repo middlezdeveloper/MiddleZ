@@ -1039,23 +1039,24 @@
         }
 
         .challenge-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: none;
             border-radius: 16px;
             padding: 24px;
             color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 16px;
             text-align: left;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+            font-weight: 500;
         }
 
         .challenge-btn:hover {
-            background: rgba(124, 58, 237, 0.1);
-            border-color: rgba(124, 58, 237, 0.3);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
         }
 
         .challenge-icon {
