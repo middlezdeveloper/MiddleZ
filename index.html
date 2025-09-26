@@ -1410,7 +1410,7 @@
             transition: all 0.3s ease;
             pointer-events: all;
             opacity: 0;
-            transform: scale(0.3);
+            transform: translateY(1px) scale(0.8);
         }
 
 
@@ -1597,15 +1597,15 @@
             animation: drawPath 3s ease forwards;
         }
 
-        /* Dot animation - appear in place only, no flying - v2.1 */
+        /* Dot animation - minimal 1px movement - v2.2 */
         @keyframes dotAppearInPlace {
             from {
                 opacity: 0;
-                transform: scale(0.3);
+                transform: translateY(1px) scale(0.8);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateY(0) scale(1);
             }
         }
 
