@@ -149,7 +149,14 @@
             transition: all 0.3s ease;
         }
 
-        .nav-links a:hover { color: #4f46e5; transform: translateX(10px); }
+        /* Consistent magenta-amber gradient hover effect for all menu items */
+        .nav-links a:hover {
+            background: linear-gradient(135deg, #d946ef 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transform: translateX(10px);
+        }
 
         .nav-info {
             opacity: 0;
@@ -178,6 +185,14 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-contact:hover {
+            background: linear-gradient(135deg, #d946ef 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .menu-btn {
@@ -1402,8 +1417,6 @@
         }
 
         .milestone-iterative {
-            stroke: #0a0a0a;
-            stroke-width: 2;
         }
 
         .milestone-iterative:hover {
@@ -1412,8 +1425,6 @@
 
         .milestone-bigbuild {
             fill: #94a3b8;
-            stroke: #0a0a0a;
-            stroke-width: 2;
         }
 
         .milestone-bigbuild:hover {
