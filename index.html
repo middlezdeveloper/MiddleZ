@@ -1881,8 +1881,8 @@
             </div>
 
             <div class="controls">
-                <button class="control-btn active" data-view="time-cost">Time vs Cost</button>
-                <button class="control-btn" data-view="efficacy">Efficacy Over Time</button>
+                <button class="control-btn active" data-view="efficacy">Efficacy Over Time</button>
+                <button class="control-btn" data-view="time-cost">Time vs Cost</button>
                 <button class="control-btn" data-view="risk">Risk Profile</button>
                 <button class="control-btn" data-view="value">Value Delivered</button>
             </div>
@@ -2806,7 +2806,7 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
             }
         };
 
-        let currentView = 'time-cost';
+        let currentView = 'efficacy';
         let svg, pathsGroup, milestonesGroup, tooltip;
 
         // Animation approach: 'sync' for synchronized appearance, 'fly' for fly from line start
@@ -3182,7 +3182,7 @@ Low conversion isn't a creative problem—it's a positioning problem. We analyze
             });
 
             // Initialize with first chart (no animation initially)
-            updateChart('time-cost', false);
+            updateChart('efficacy', false);
 
             // Set up scroll-triggered animation
             setupScrollAnimation();
