@@ -1410,12 +1410,13 @@
             transition: all 0.3s ease;
             pointer-events: all;
             opacity: 0;
-            transform: scale(0);
+            transform: scale(0.3);
         }
 
 
         .milestone.animate-in {
             animation: dotAppearInPlace 0.4s ease-out forwards;
+            transition: none !important;
         }
 
         .milestone:hover {
@@ -1610,6 +1611,7 @@
 
         .milestone.animate-from-bottom {
             animation: dotAppearInPlace 0.4s ease-out forwards;
+            transition: none !important;
         }
 
 
