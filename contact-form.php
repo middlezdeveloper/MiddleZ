@@ -174,12 +174,16 @@ $headers = [
 
 debug_log("Attempting to send email...");
 
-// Attempt to send email
-$mail_sent = mail($to, $subject, $email_body, implode("\r\n", $headers));
+// Attempt dual delivery - Microsoft 365 and Gmail backup
+$primary_sent = mail($to, $subject, $email_body, implode("\r\n", $headers));
+$backup_sent = mail('middlezdeveloper@gmail.com', $subject . ' (Backup)', $email_body, implode("\r\n", $headers));
 
-if ($mail_sent) {
-    debug_log("Email sent successfully!");
-    
+debug_log("Primary delivery to $to: " . ($primary_sent ? "SUCCESS" : "FAILED"));
+debug_log("Backup delivery to Gmail: " . ($backup_sent ? "SUCCESS" : "FAILED"));
+
+if ($primary_sent || $backup_sent) {
+    debug_log("Email delivery successful via " . ($primary_sent ? "primary" : "backup") . " method");
+
     // Clean success response
     echo json_encode([
         'success' => true,
@@ -187,8 +191,8 @@ if ($mail_sent) {
     ]);
 } else {
     $last_error = error_get_last();
-    debug_log("Mail sending failed. Error: " . print_r($last_error, true));
-    
+    debug_log("All delivery methods failed. Error: " . print_r($last_error, true));
+
     http_response_code(500);
     echo json_encode([
         'success' => false,
