@@ -34,6 +34,19 @@ if (function_exists('mail')) {
     $result3 = mail('daniel@mzconsulting.com.au', $subject . ' (Alt)', $message, $headers2);
     echo $result3 ? "✓ SUCCESS\n" : "✗ FAILED\n";
 
+    // Test 4: Simulate contact form submission
+    echo "\nTest 4: Contact form simulation\n";
+    $contact_headers = [
+        'From: Test User <test@gmail.com>',
+        'Reply-To: Test User <test@gmail.com>',
+        'Return-Path: noreply@middlez.com',
+        'X-Mailer: PHP/' . phpversion(),
+        'Content-Type: text/plain; charset=UTF-8'
+    ];
+    $contact_body = "This simulates a contact form submission.\n\nName: Test User\nEmail: test@gmail.com\nMessage: Testing email delivery";
+    $result4 = mail('hello@middlez.com.au', 'Contact Form Test - ' . $timestamp, $contact_body, implode("\r\n", $contact_headers));
+    echo $result4 ? "✓ SUCCESS\n" : "✗ FAILED\n";
+
     if (!$result1 && !$result2) {
         $error = error_get_last();
         echo "\nLast error: " . print_r($error, true) . "\n";
