@@ -140,7 +140,7 @@ if (!function_exists('mail')) {
 }
 
 // Email configuration
-$to = 'gmiddlez@gmail.com';
+$to = 'middlezdeveloper@gmail.com';
 $subject = 'New Contact Form Submission - Middle Z';
 $from_email = 'noreply@middlez.com'; // Use consistent sender to avoid spoofing issues
 
