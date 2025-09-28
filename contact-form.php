@@ -142,7 +142,7 @@ if (!function_exists('mail')) {
 // Email configuration
 $to = 'hello@middlez.com.au';
 $subject = 'New Contact Form Submission - Middle Z';
-$from_email = $email; // Use the user's email as the from address
+$from_email = 'noreply@middlez.com'; // Use consistent sender to avoid spoofing issues
 
 debug_log("=== EMAIL CONFIG UPDATE v2 ===");
 debug_log("Sending email to: $to from: $from_email");
@@ -160,15 +160,14 @@ $email_body .= "Submitted: " . date('F j, Y \a\t g:i A T') . "\n";
 $email_body .= "IP Address: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
 $email_body .= "User Agent: " . ($_SERVER['HTTP_USER_AGENT'] ?? 'unknown') . "\n";
 
-// Email headers for better deliverability
+// Email headers for better deliverability (Gmail-friendly approach)
 $headers = [
-    'From: ' . $name . ' <' . $from_email . '>',
+    'From: Middle Z Website <noreply@middlez.com>',
     'Reply-To: ' . $name . ' <' . $email . '>',
     'Return-Path: noreply@middlez.com',
     'X-Mailer: PHP/' . phpversion(),
     'Content-Type: text/plain; charset=UTF-8',
-    'X-Priority: 1',
-    'X-MSMail-Priority: High'
+    'X-Priority: 3'
 ];
 
 debug_log("Attempting to send email...");
