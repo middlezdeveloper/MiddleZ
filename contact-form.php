@@ -140,7 +140,7 @@ if (!function_exists('mail')) {
 }
 
 // Email configuration
-$to = 'daniel@mzconsulting.com.au';
+$to = 'gmiddlez@gmail.com';
 $subject = 'New Contact Form Submission - Middle Z';
 $from_email = 'noreply@middlez.com'; // Use consistent sender to avoid spoofing issues
 
