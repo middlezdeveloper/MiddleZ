@@ -142,10 +142,12 @@ if (!function_exists('mail')) {
 // Email configuration
 $to = 'hello@middlez.com.au';
 $subject = 'New Contact Form Submission - Middle Z';
-$from_domain = $_SERVER['HTTP_HOST'] ?? 'middlez.com';
+$from_domain = $_SERVER['HTTP_HOST'] ?? 'middlez.com.au';
 $from_email = 'noreply@' . str_replace('www.', '', $from_domain);
 
+debug_log("=== EMAIL CONFIG UPDATE v2 ===");
 debug_log("Sending email to: $to from: $from_email");
+debug_log("Host domain: " . ($_SERVER['HTTP_HOST'] ?? 'unknown'));
 
 // Create email body (plain text for better deliverability)
 $email_body = "New Contact Form Submission - Middle Z\n\n";
