@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iterations vs Big Build - Interactive Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Optional purple overlay for extra depth */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(139, 43, 222, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(139, 43, 222, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .chart-container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #8b2bde 0%, #C6F432 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            background: rgba(139, 43, 222, 0.2);
+            border: 2px solid #8b2bde;
+            color: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .control-btn:hover {
+            background: rgba(139, 43, 222, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: #8b2bde;
+            box-shadow: 0 10px 30px rgba(139, 43, 222, 0.5);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 500px;
+            margin-bottom: 40px;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .axis {
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 2;
+        }
+
+        .axis-label {
+            fill: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid-line {
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 1;
+            stroke-dasharray: 5, 5;
+        }
+
+        .path-iterative {
+            stroke: #C6F432;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 20px rgba(198, 244, 50, 0.5));
+        }
+
+        .path-bigbuild {
+            stroke: #FF4757;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 10, 5;
+            filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.3));
+        }
+
+        .milestone {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: all;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .milestone.animate-in {
+            animation: milestoneAppear 0.5s ease forwards;
+        }
+
+        .milestone:hover {
+            filter: drop-shadow(0 0 15px currentColor);
+        }
+
+        .milestone-iterative {
+            fill: #C6F432;
+            stroke: #0a0a0a;
+            stroke-width: 2;
+        }
+
+        .milestone-iterative:hover {
+            filter: drop-shadow(0 0 15px #C6F432);
+        }
+
+        .milestone-bigbuild {
+            fill: #FF4757;
+            stroke: #0a0a0a;
+            stroke-width: 2;
+        }
+
+        .milestone-bigbuild:hover {
+            filter: drop-shadow(0 0 15px #FF4757);
+        }
+
+        .tooltip {
+            position: fixed;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+            max-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .tooltip-title.iterative {
+            color: #C6F432;
+        }
+
+        .tooltip-title.bigbuild {
+            color: #FF4757;
+        }
+
+        .tooltip-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .legend {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .legend-color.iterative {
+            background: #C6F432;
+            box-shadow: 0 0 10px rgba(198, 244, 50, 0.5);
+        }
+
+        .legend-color.bigbuild {
+            background: #FF4757;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+        }
+
+        .stats-section {
+            margin-top: 40px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-iterative {
+            color: #C6F432;
+        }
+
+        .stat-bigbuild {
+            color: #FF4757;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, rgba(139, 43, 222, 0.1), rgba(198, 244, 50, 0.1));
+            border: 1px solid rgba(198, 244, 50, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: left;
+            max-width: 400px;
+            min-width: 300px;
+        }
+
+        .insight-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #C6F432;
+        }
+
+        .insight-text {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .insight-box {
+                max-width: none;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .chart-wrapper {
+                height: 400px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Animation classes */
+        @keyframes drawPath {
+            from {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+            }
+            to {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .animate-path {
+            animation: drawPath 3s ease forwards;
+        }
+
+        @keyframes milestoneAppear {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <div class="chart-header">
+            <h1>Iterative Prototyping vs Big Build</h1>
+            <p class="subtitle">See how rapid iterations lead to better outcomes</p>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn active" data-view="time-cost">Time vs Cost</button>
+            <button class="control-btn" data-view="efficacy">Efficacy Over Time</button>
+            <button class="control-btn" data-view="risk">Risk Profile</button>
+            <button class="control-btn" data-view="value">Value Delivered</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color iterative"></div>
+                <span>Iterative Approach (Vibe Viable)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color bigbuild"></div>
+                <span>Traditional Big Build</span>
+            </div>
+        </div>
+
+        <div class="chart-wrapper">
+            <svg id="mainChart" viewBox="0 0 1000 500">
+                <!-- Grid -->
+                <defs>
+                    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="1000" height="500" fill="url(#grid)" />
+
+                <!-- Axes -->
+                <line x1="50" y1="450" x2="950" y2="450" class="axis" />
+                <line x1="50" y1="50" x2="50" y2="450" class="axis" />
+
+                <!-- X-axis labels -->
+                <text x="500" y="490" class="axis-label" text-anchor="middle">TIME (MONTHS)</text>
+                
+                <!-- Y-axis labels -->
+                <text x="25" y="250" class="axis-label y-axis-label" text-anchor="middle" transform="rotate(-90 25 250)">COST ($K)</text>
+
+                <!-- Paths will be drawn here by JavaScript -->
+                <g id="paths"></g>
+                
+                <!-- Milestones will be drawn here by JavaScript -->
+                <g id="milestones"></g>
+            </svg>
+        </div>
+
+        <div class="tooltip">
+            <div class="tooltip-title"></div>
+            <div class="tooltip-content"></div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value stat-iterative">4 weeks</div>
+                        <div class="stat-label">First Prototype</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-bigbuild">6 months</div>
+                        <div class="stat-label">Big Build MVP</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-iterative">$50K</div>
+                        <div class="stat-label">Total Investment</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-bigbuild">$500K</div>
+                        <div class="stat-label">Total Cost</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-iterative">85%</div>
+                        <div class="stat-label">User Satisfaction</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-bigbuild">45%</div>
+                        <div class="stat-label">First Version Success</div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">💡 Key Insight</div>
+                    <div class="insight-text">
+                        While iterative development may reach full production slightly later, it delivers validated, user-tested features that achieve 85% efficacy from day one. Traditional big builds often launch at 45% efficacy and require expensive post-launch fixes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart data for different views
+        const chartData = {
+            'time-cost': {
+                iterative: [
+                    { x: 0, y: 0, label: 'Start', desc: 'Project kickoff' },
+                    { x: 1, y: 15, label: 'Sprint 1', desc: 'Discovery & Research' },
+                    { x: 2, y: 35, label: 'Prototype', desc: 'Working prototype ready' },
+                    { x: 3, y: 50, label: 'Test & Iterate', desc: 'User feedback integrated' },
+                    { x: 4, y: 80, label: 'MVP Launch', desc: 'Production-ready with validated features' },
+                    { x: 6, y: 120, label: 'Scale', desc: 'Confident scaling based on data' }
+                ],
+                bigbuild: [
+                    { x: 0, y: 0, label: 'Start', desc: 'Requirements gathering' },
+                    { x: 2, y: 100, label: 'Design Phase', desc: 'Extensive planning' },
+                    { x: 4, y: 300, label: 'Development', desc: 'Building all features' },
+                    { x: 6, y: 500, label: 'Launch', desc: 'Big bang release' },
+                    { x: 8, y: 650, label: 'Fixes', desc: 'Post-launch corrections' }
+                ]
+            },
+            'efficacy': {
+                iterative: [
+                    { x: 0, y: 0, label: 'Start', desc: '0% efficacy' },
+                    { x: 1, y: 40, label: 'First Test', desc: '40% efficacy with early users' },
+                    { x: 2, y: 65, label: 'Iterate', desc: '65% after feedback' },
+                    { x: 3, y: 75, label: 'Refine', desc: '75% efficacy' },
+                    { x: 4, y: 85, label: 'Launch', desc: '85% efficacy at launch' },
+                    { x: 6, y: 95, label: 'Optimized', desc: '95% efficacy achieved' }
+                ],
+                bigbuild: [
+                    { x: 0, y: 0, label: 'Start', desc: 'No user validation' },
+                    { x: 3, y: 0, label: 'Building', desc: 'Still no user feedback' },
+                    { x: 6, y: 45, label: 'Launch', desc: '45% efficacy - many assumptions wrong' },
+                    { x: 8, y: 60, label: 'Patches', desc: '60% after expensive fixes' },
+                    { x: 10, y: 70, label: 'Rebuild', desc: '70% requires major overhaul' }
+                ]
+            },
+            'risk': {
+                iterative: [
+                    { x: 0, y: 100, label: 'Start', desc: 'High risk, low investment' },
+                    { x: 1, y: 70, label: 'Validated', desc: 'Risk decreasing with data' },
+                    { x: 2, y: 50, label: 'Proven', desc: 'Concept proven with users' },
+                    { x: 3, y: 30, label: 'Refined', desc: 'Major risks addressed' },
+                    { x: 4, y: 20, label: 'Launch', desc: 'Low risk, high confidence' },
+                    { x: 6, y: 10, label: 'Stable', desc: 'Minimal risk' }
+                ],
+                bigbuild: [
+                    { x: 0, y: 100, label: 'Start', desc: 'High risk' },
+                    { x: 2, y: 95, label: 'Committed', desc: 'Risk increasing with investment' },
+                    { x: 4, y: 90, label: 'Locked In', desc: 'Too late to pivot' },
+                    { x: 6, y: 85, label: 'Launch', desc: 'Maximum risk at launch' },
+                    { x: 8, y: 70, label: 'Reality', desc: 'Risk partially mitigated' }
+                ]
+            },
+            'value': {
+                iterative: [
+                    { x: 0, y: 0, label: 'Start', desc: 'No value yet' },
+                    { x: 1, y: 30, label: 'Early Value', desc: 'Learning and validation' },
+                    { x: 2, y: 60, label: 'Demo Value', desc: 'Investor interest' },
+                    { x: 3, y: 80, label: 'User Value', desc: 'Beta users engaged' },
+                    { x: 4, y: 100, label: 'Market Value', desc: 'Revenue generating' },
+                    { x: 6, y: 150, label: 'Growth', desc: 'Exponential value growth' }
+                ],
+                bigbuild: [
+                    { x: 0, y: 0, label: 'Start', desc: 'No value' },
+                    { x: 2, y: 5, label: 'Plans', desc: 'Theoretical value only' },
+                    { x: 4, y: 10, label: 'Preview', desc: 'Marketing value' },
+                    { x: 6, y: 50, label: 'Launch', desc: 'Initial value delivered' },
+                    { x: 8, y: 70, label: 'Fixed', desc: 'Value improving slowly' }
+                ]
+            }
+        };
+
+        let currentView = 'time-cost';
+        const svg = document.getElementById('mainChart');
+        const pathsGroup = document.getElementById('paths');
+        const milestonesGroup = document.getElementById('milestones');
+        const tooltip = document.querySelector('.tooltip');
+
+        // Scale functions
+        const scaleX = (value) => 50 + (value / 10) * 900;
+        const scaleY = (value, maxY) => 450 - (value / maxY) * 400;
+
+        // Calculate path length for timing
+        function calculatePathLength(data, maxY) {
+            let totalLength = 0;
+            for (let i = 1; i < data.length; i++) {
+                const dx = scaleX(data[i].x) - scaleX(data[i-1].x);
+                const dy = scaleY(data[i].y, maxY) - scaleY(data[i-1].y, maxY);
+                totalLength += Math.sqrt(dx * dx + dy * dy);
+            }
+            return totalLength;
+        }
+
+        // Calculate distance along path to a specific point
+        function getDistanceToPoint(data, pointIndex, maxY) {
+            let distance = 0;
+            for (let i = 1; i <= pointIndex; i++) {
+                const dx = scaleX(data[i].x) - scaleX(data[i-1].x);
+                const dy = scaleY(data[i].y, maxY) - scaleY(data[i-1].y, maxY);
+                distance += Math.sqrt(dx * dx + dy * dy);
+            }
+            return distance;
+        }
+
+        // Draw path
+        function drawPath(data, className, maxY) {
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            
+            let d = `M ${scaleX(data[0].x)} ${scaleY(data[0].y, maxY)}`;
+            
+            for (let i = 1; i < data.length; i++) {
+                const x = scaleX(data[i].x);
+                const y = scaleY(data[i].y, maxY);
+                const prevX = scaleX(data[i-1].x);
+                const prevY = scaleY(data[i-1].y, maxY);
+                const cpx = (prevX + x) / 2;
+                
+                d += ` Q ${cpx} ${prevY} ${x} ${y}`;
+            }
+            
+            path.setAttribute('d', d);
+            path.setAttribute('class', className);
+            path.classList.add('animate-path');
+            
+            return path;
+        }
+
+        // Draw milestones with PROPER synchronized timing and labels
+        function drawMilestones(data, className, maxY) {
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            const animationDuration = 3000; // Match path animation duration
+            
+            data.forEach((point, i) => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', scaleX(point.x));
+                circle.setAttribute('cy', scaleY(point.y, maxY));
+                circle.setAttribute('r', '8');
+                circle.setAttribute('class', `milestone ${className}`);
+                
+                // Calculate delay based on x-position along time axis (much simpler and more accurate)
+                const timeProgress = point.x / 10; // x goes from 0 to ~10 months
+                const delay = timeProgress * animationDuration;
+                
+                // Set up the animation with proper delay
+                setTimeout(() => {
+                    circle.classList.add('animate-in');
+                }, delay);
+                
+                // Add hover events with proper event handling
+                circle.addEventListener('mouseenter', function(e) {
+                    e.stopPropagation();
+                    showTooltip(e, point, className);
+                });
+                
+                circle.addEventListener('mouseleave', function(e) {
+                    e.stopPropagation();
+                    hideTooltip();
+                });
+                
+                group.appendChild(circle);
+                
+                // Add labels for ALL milestones
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', scaleX(point.x));
+                
+                // For risk profile, put iterative (green) labels below the line to avoid overlap
+                if (currentView === 'risk' && className === 'milestone-iterative') {
+                    text.setAttribute('y', scaleY(point.y, maxY) + 25); // Below the dot
+                } else {
+                    text.setAttribute('y', scaleY(point.y, maxY) - 15); // Above the dot
+                }
+                
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('fill', className === 'milestone-iterative' ? '#C6F432' : '#FF4757');
+                text.setAttribute('font-size', '12');
+                text.setAttribute('font-weight', '600');
+                text.textContent = point.label;
+                
+                // Animate label with slight additional delay
+                text.style.opacity = '0';
+                setTimeout(() => {
+                    text.style.opacity = '1';
+                    text.style.transition = 'opacity 0.3s ease';
+                }, delay + 200);
+                
+                group.appendChild(text);
+            });
+            
+            return group;
+        }
+
+        // Tooltip functions with fixed positioning and color-coded headers
+        function showTooltip(event, data, className) {
+            // Get mouse position relative to the viewport
+            const x = event.clientX;
+            const y = event.clientY;
+            
+            // Position tooltip relative to mouse with offset
+            let tooltipX = x + 15;
+            let tooltipY = y - 15;
+            
+            // Keep tooltip within viewport bounds
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Adjust if tooltip would go off right edge
+            if (tooltipX + 250 > viewportWidth) {
+                tooltipX = x - 250 - 15;
+            }
+            
+            // Adjust if tooltip would go off top edge
+            if (tooltipY < 10) {
+                tooltipY = y + 25;
+            }
+            
+            // Adjust if tooltip would go off bottom edge
+            if (tooltipY + 100 > viewportHeight) {
+                tooltipY = y - 100 - 15;
+            }
+            
+            tooltip.style.left = `${tooltipX}px`;
+            tooltip.style.top = `${tooltipY}px`;
+            tooltip.style.position = 'fixed'; // Use fixed positioning
+            
+            const tooltipTitle = tooltip.querySelector('.tooltip-title');
+            tooltipTitle.textContent = data.label;
+            
+            // Set color based on milestone type
+            if (className === 'milestone-iterative') {
+                tooltipTitle.className = 'tooltip-title iterative';
+            } else {
+                tooltipTitle.className = 'tooltip-title bigbuild';
+            }
+            
+            tooltip.querySelector('.tooltip-content').textContent = data.desc;
+            tooltip.classList.add('show');
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('show');
+        }
+
+        // Update chart
+        function updateChart(view) {
+            currentView = view;
+            const data = chartData[view];
+            
+            // Clear existing elements
+            pathsGroup.innerHTML = '';
+            milestonesGroup.innerHTML = '';
+            
+            // Update Y-axis label based on view
+            const yAxisLabel = document.querySelector('.y-axis-label');
+            const axisLabels = {
+                'time-cost': 'COST ($K)',
+                'efficacy': 'EFFICACY (%)',
+                'risk': 'RISK LEVEL (%)',
+                'value': 'VALUE DELIVERED'
+            };
+            yAxisLabel.textContent = axisLabels[view];
+            
+            // Find max Y value for scaling
+            const maxY = Math.max(
+                ...data.iterative.map(d => d.y),
+                ...data.bigbuild.map(d => d.y)
+            ) * 1.1;
+            
+            // Draw paths
+            pathsGroup.appendChild(drawPath(data.iterative, 'path-iterative', maxY));
+            pathsGroup.appendChild(drawPath(data.bigbuild, 'path-bigbuild', maxY));
+            
+            // Draw milestones with synchronized timing
+            milestonesGroup.appendChild(drawMilestones(data.iterative, 'milestone-iterative', maxY));
+            milestonesGroup.appendChild(drawMilestones(data.bigbuild, 'milestone-bigbuild', maxY));
+            
+            // Update stats based on view
+            updateStats(view);
+            updateInsight(view);
+        }
+
+        // Update statistics
+        function updateStats(view) {
+            const stats = {
+                'time-cost': {
+                    iterative: ['4 weeks', 'First Prototype'],
+                    bigbuild: ['6 months', 'Big Build MVP'],
+                    cost1: ['$50K', 'Total Investment'],
+                    cost2: ['$500K', 'Total Cost']
+                },
+                'efficacy': {
+                    iterative: ['85%', 'Launch Efficacy'],
+                    bigbuild: ['45%', 'Launch Efficacy'],
+                    cost1: ['2 months', 'To 80% Efficacy'],
+                    cost2: ['12+ months', 'To 80% Efficacy']
+                },
+                'risk': {
+                    iterative: ['20%', 'Launch Risk'],
+                    bigbuild: ['85%', 'Launch Risk'],
+                    cost1: ['Week 2', 'Risk Validated'],
+                    cost2: ['Month 6', 'Risk Discovered']
+                },
+                'value': {
+                    iterative: ['Week 4', 'First Value'],
+                    bigbuild: ['Month 6', 'First Value'],
+                    cost1: ['3x ROI', 'Year 1'],
+                    cost2: ['0.5x ROI', 'Year 1']
+                }
+            };
+            
+            const currentStats = stats[view];
+            const statCards = document.querySelectorAll('.stat-card');
+            
+            statCards[0].querySelector('.stat-value').textContent = currentStats.iterative[0];
+            statCards[0].querySelector('.stat-label').textContent = currentStats.iterative[1];
+            
+            statCards[1].querySelector('.stat-value').textContent = currentStats.bigbuild[0];
+            statCards[1].querySelector('.stat-label').textContent = currentStats.bigbuild[1];
+            
+            statCards[2].querySelector('.stat-value').textContent = currentStats.cost1[0];
+            statCards[2].querySelector('.stat-label').textContent = currentStats.cost1[1];
+            
+            statCards[3].querySelector('.stat-value').textContent = currentStats.cost2[0];
+            statCards[3].querySelector('.stat-label').textContent = currentStats.cost2[1];
+        }
+
+        // Update insight
+        function updateInsight(view) {
+            const insights = {
+                'time-cost': 'While iterative development may reach full production slightly later, it delivers validated, user-tested features that achieve 85% efficacy from day one. Traditional big builds often launch at 45% efficacy and require expensive post-launch fixes.',
+                'efficacy': 'Iterative development reaches high efficacy faster because each iteration incorporates real user feedback. Big builds guess at user needs and often miss the mark, requiring costly rebuilds.',
+                'risk': 'Risk decreases rapidly with iterative development as assumptions are validated early. Big builds maintain high risk until launch, when it\'s too expensive to pivot.',
+                'value': 'Iterative approaches deliver value from week 4, allowing for early revenue or investment. Big builds lock capital for 6+ months before any return.'
+            };
+            
+            document.querySelector('.insight-text').textContent = insights[view];
+        }
+
+        // Control buttons
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.control-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateChart(btn.dataset.view);
+            });
+        });
+
+        // Initialize
+        updateChart('time-cost');
+
+        // Add some entrance animations
+        setTimeout(() => {
+            document.querySelectorAll('.stat-card').forEach((card, i) => {
+                setTimeout(() => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.opacity = '1';
+                }, i * 100);
+            });
+        }, 500);
+    </script>
+</body>
+</html>
