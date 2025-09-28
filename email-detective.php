@@ -25,17 +25,26 @@ $result2 = mail($to1, "Email Detective Test 2 - $timestamp", $message2, $headers
 echo "Result: " . ($result2 ? "SUCCESS" : "FAILED") . "\n\n";
 
 // Test 3: Multiple recipients to compare
-echo "Test 3: Multiple recipients\n";
+echo "Test 3: Multiple recipients comparison\n";
 $recipients = [
     'daniel@mzconsulting.com.au',
-    'hello@middlez.com.au' // The forwarding address
+    'hello@middlez.com.au', // The forwarding address
+    'gmiddlez@gmail.com' // Gmail test to rule out 365 issues
 ];
 
 foreach ($recipients as $i => $email) {
     $num = $i + 1;
-    $result = mail($email, "Multi-Test $num - $timestamp", "Test $num to $email\n\nSent at: $timestamp", $headers1);
+    $result = mail($email, "Multi-Test $num - $timestamp", "Test $num to $email\n\nSent at: $timestamp\n\nIf you receive this at Gmail, it proves the server can send emails successfully!", $headers1);
     echo "To $email: " . ($result ? "SUCCESS" : "FAILED") . "\n";
 }
+
+// Test 4: Gmail-specific test with different headers
+echo "\nTest 4: Gmail-optimized headers\n";
+$gmail_headers = "From: Middle Z Contact Test <noreply@middlez.com>\r\nReply-To: noreply@middlez.com\r\nContent-Type: text/plain; charset=UTF-8\r\nX-Mailer: PHP/" . phpversion();
+$gmail_message = "Gmail Delivery Test - $timestamp\n\nThis email tests if the server can successfully deliver to Gmail.\n\nIf you receive this, the server email functionality is working perfectly!\n\nServer: middlez.com\nTime: $timestamp";
+
+$result4 = mail('gmiddlez@gmail.com', "Gmail Delivery Test - $timestamp", $gmail_message, $gmail_headers);
+echo "Gmail test result: " . ($result4 ? "SUCCESS" : "FAILED") . "\n";
 
 echo "\n=== SERVER MAIL QUEUE CHECK ===\n";
 
@@ -94,6 +103,9 @@ if (getmxrr($domain, $mx_records)) {
 echo "\n=== INSTRUCTIONS ===\n";
 echo "1. Check daniel@mzconsulting.com.au inbox for Test 1, 2, and 3\n";
 echo "2. Check hello@middlez.com.au for Test 3\n";
-echo "3. Look for emails with timestamp: $timestamp\n";
-echo "4. Check ALL folders including junk/spam\n";
+echo "3. Check gmiddlez@gmail.com for Test 3 and 4 (Gmail delivery test)\n";
+echo "4. Look for emails with timestamp: $timestamp\n";
+echo "5. Check ALL folders including junk/spam in all accounts\n";
+echo "6. If Gmail receives emails but 365 doesn't, it's a Microsoft filtering issue\n";
+echo "7. If NO emails arrive anywhere, it's a server configuration issue\n";
 ?>
