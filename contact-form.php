@@ -140,7 +140,7 @@ if (!function_exists('mail')) {
 }
 
 // Email configuration
-$to = 'middlezdeveloper@gmail.com';
+$to = 'daniel@mzconsulting.com.au';
 $subject = 'New Contact Form Submission - Middle Z';
 $from_email = 'noreply@middlez.com'; // Use consistent sender to avoid spoofing issues
 
@@ -160,11 +160,13 @@ $email_body .= "Submitted: " . date('F j, Y \a\t g:i A T') . "\n";
 $email_body .= "IP Address: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
 $email_body .= "User Agent: " . ($_SERVER['HTTP_USER_AGENT'] ?? 'unknown') . "\n";
 
-// Email headers for better deliverability (Gmail-friendly approach)
+// Email headers optimized for Microsoft 365 delivery
 $headers = [
-    'From: Middle Z Website <noreply@middlez.com>',
+    'From: Middle Z Contact Form <noreply@middlez.com>',
     'Reply-To: ' . $name . ' <' . $email . '>',
     'Return-Path: noreply@middlez.com',
+    'Message-ID: <' . uniqid() . '@middlez.com>',
+    'Date: ' . date('r'),
     'X-Mailer: PHP/' . phpversion(),
     'Content-Type: text/plain; charset=UTF-8',
     'X-Priority: 3'
