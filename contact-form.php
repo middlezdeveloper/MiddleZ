@@ -142,7 +142,7 @@ if (!function_exists('mail')) {
 // Email configuration
 $to = 'hello@middlez.com.au';
 $subject = 'New Contact Form Submission - Middle Z';
-$from_domain = $_SERVER['HTTP_HOST'] ?? 'middlez.com.au';
+$from_domain = $_SERVER['HTTP_HOST'] ?? 'middlez.com';
 $from_email = 'noreply@' . str_replace('www.', '', $from_domain);
 
 debug_log("=== EMAIL CONFIG UPDATE v2 ===");
