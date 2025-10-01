@@ -1,0 +1,21 @@
+<svg width="200" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (optional - remove if you want transparent) -->
+  <rect width="200" height="50" fill="white"/>
+
+  <!-- Middle text -->
+  <text x="10" y="32" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="600" fill="#1a1a1a">Middle</text>
+
+  <!-- Z Logo positioned after "Middle" -->
+  <g transform="translate(102, 8)">
+    <!-- Diagonal line - Alternative Purple -->
+    <line x1="26.2" y1="8" x2="5.8" y2="24" stroke="#8b2bde" stroke-width="5.2" stroke-linecap="butt" />
+
+    <!-- Top bar - Success Green -->
+    <line x1="5.8" y1="8" x2="26.2" y2="8" stroke="#10b981" stroke-width="5.2" stroke-linecap="round" />
+    <rect x="3.2" y="5.4" width="2.6" height="2.6" fill="#10b981" />
+
+    <!-- Bottom bar - Alert Red -->
+    <line x1="5.8" y1="24" x2="26.2" y2="24" stroke="#FF4757" stroke-width="5.2" stroke-linecap="round" />
+    <rect x="26.2" y="21.4" width="2.6" height="2.6" fill="#FF4757" />
+  </g>
+</svg>
