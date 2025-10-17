@@ -775,14 +775,19 @@ export default function SurveyPage() {
                         />
                       </div>
 
-                      <div className="flex items-center space-x-2 bg-[#11ba81]/10 border border-[#11ba81]/30 p-4 rounded-lg">
-                        <Checkbox
-                          checked={watch('testimonialReleaseAccepted')}
-                          onCheckedChange={(checked) => setValue('testimonialReleaseAccepted', checked as boolean)}
-                        />
-                        <label className="text-sm">
-                          I accept the testimonial release and grant permission for the uses selected above
-                        </label>
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2 bg-[#11ba81]/10 border border-[#11ba81]/30 p-4 rounded-lg">
+                          <Checkbox
+                            checked={watch('testimonialReleaseAccepted')}
+                            onCheckedChange={(checked) => setValue('testimonialReleaseAccepted', checked as boolean)}
+                          />
+                          <label className="text-sm">
+                            I accept the testimonial release and grant permission for the uses selected above <span className="text-red-600">*</span>
+                          </label>
+                        </div>
+                        {errors.testimonialReleaseAccepted && (
+                          <p className="text-red-600 text-sm">{errors.testimonialReleaseAccepted.message}</p>
+                        )}
                       </div>
                     </>
                   )}

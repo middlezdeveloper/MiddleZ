@@ -76,7 +76,9 @@ export const surveySchema = z.object({
   attributionPreference: z.enum(attributionPreferences).optional(),
   usagePermissions: z.array(z.enum(usagePermissionOptions)).optional(),
   commerciallySensitiveNotes: z.string().optional(),
-  testimonialReleaseAccepted: z.boolean().default(false),
+  testimonialReleaseAccepted: z.boolean().refine((val) => val === true, {
+    message: 'You must accept the testimonial release to submit',
+  }),
 
   // Metadata
   timeTakenSeconds: z.number().optional(),
