@@ -136,11 +136,15 @@ export default function SurveyPage() {
     const isValid = fieldsToValidate.length === 0 || await trigger(fieldsToValidate as any)
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, TOTAL_STEPS))
+      // Scroll to top of page
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
   const prevStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1))
+    // Scroll to top of page
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const onSubmit = async (data: SurveyFormData) => {
@@ -347,7 +351,7 @@ export default function SurveyPage() {
             {currentStep === 3 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">A. Value Realised</h2>
+                  <h2 className="text-2xl font-bold mb-2">Value Realised</h2>
                   <p className="text-gray-600 italic">Tell us about the tangible value created</p>
                 </div>
 
@@ -418,7 +422,7 @@ export default function SurveyPage() {
             {currentStep === 4 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">B. Capability Uplift</h2>
+                  <h2 className="text-2xl font-bold mb-2">Capability Uplift</h2>
                   <p className="text-gray-600 italic">Empowerment, not dependency—what strengths were built?</p>
                 </div>
 
@@ -480,7 +484,7 @@ export default function SurveyPage() {
             {currentStep === 5 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">C. Experience Quality</h2>
+                  <h2 className="text-2xl font-bold mb-2">Experience Quality</h2>
                   <p className="text-gray-600 italic">Mapping your journey—moments of delight, friction, and trust</p>
                 </div>
 
@@ -552,7 +556,7 @@ export default function SurveyPage() {
             {currentStep === 6 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">D. Sustainability & Future Impact</h2>
+                  <h2 className="text-2xl font-bold mb-2">Sustainability & Future Impact</h2>
                   <p className="text-gray-600 italic">Co-ownership beyond delivery—what do we need to design for next?</p>
                 </div>
 
@@ -614,7 +618,7 @@ export default function SurveyPage() {
             {currentStep === 7 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">E. Improvement Insights</h2>
+                  <h2 className="text-2xl font-bold mb-2">Improvement Insights</h2>
                   <p className="text-gray-600 italic">You're now a co-designer—help us improve the experience</p>
                 </div>
 
