@@ -5,14 +5,14 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
   try {
-    // Temporarily bypass auth for testing
-    // const session = await getServerSession(authOptions)
-    // if (!session) {
-    //   return NextResponse.json(
-    //     { error: 'Unauthorized' },
-    //     { status: 401 }
-    //   )
-    // }
+    // Check admin password
+    const authHeader = req.headers.get('x-admin-password')
+    if (authHeader !== 'MiddleZ2024!') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
 
     const { searchParams } = new URL(req.url)
     const projectId = searchParams.get('projectId')

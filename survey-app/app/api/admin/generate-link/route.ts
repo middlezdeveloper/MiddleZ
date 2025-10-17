@@ -14,14 +14,14 @@ const projectSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    // Temporarily bypass auth for testing
-    // const session = await getServerSession(authOptions)
-    // if (!session) {
-    //   return NextResponse.json(
-    //     { error: 'Unauthorized' },
-    //     { status: 401 }
-    //   )
-    // }
+    // Check admin password
+    const authHeader = req.headers.get('x-admin-password')
+    if (authHeader !== 'MiddleZ2024!') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
 
     const body = await req.json()
     const validated = projectSchema.parse(body)
@@ -87,14 +87,14 @@ export async function POST(req: NextRequest) {
 // Get all projects
 export async function GET(req: NextRequest) {
   try {
-    // Temporarily bypass auth for testing
-    // const session = await getServerSession(authOptions)
-    // if (!session) {
-    //   return NextResponse.json(
-    //     { error: 'Unauthorized' },
-    //     { status: 401 }
-    //   )
-    // }
+    // Check admin password
+    const authHeader = req.headers.get('x-admin-password')
+    if (authHeader !== 'MiddleZ2024!') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
 
     const projects = await prisma.surveyProject.findMany({
       orderBy: {

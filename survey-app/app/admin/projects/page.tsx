@@ -32,7 +32,11 @@ export default function ProjectsPage() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('/api/admin/generate-link')
+      const res = await fetch('/api/admin/generate-link', {
+        headers: {
+          'x-admin-password': 'MiddleZ2024!'
+        }
+      })
       if (res.ok) {
         const data = await res.json()
         setProjects(data.projects)
@@ -51,7 +55,10 @@ export default function ProjectsPage() {
     try {
       const res = await fetch('/api/admin/generate-link', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-password': 'MiddleZ2024!'
+        },
         body: JSON.stringify(formData),
       })
 

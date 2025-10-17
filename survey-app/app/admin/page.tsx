@@ -40,7 +40,11 @@ export default function AdminDashboard() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('/api/admin/generate-link')
+      const res = await fetch('/api/admin/generate-link', {
+        headers: {
+          'x-admin-password': 'MiddleZ2024!'
+        }
+      })
       if (res.ok) {
         const data = await res.json()
         setProjects(data.projects)
@@ -58,9 +62,13 @@ export default function AdminDashboard() {
       const analyticsUrl = `/api/admin/survey-analytics?projectId=${projectId}`
       const responsesUrl = `/api/admin/survey-responses?limit=10&projectId=${projectId}`
 
+      const headers = {
+        'x-admin-password': 'MiddleZ2024!'
+      }
+
       const [analyticsRes, responsesRes] = await Promise.all([
-        fetch(analyticsUrl),
-        fetch(responsesUrl),
+        fetch(analyticsUrl, { headers }),
+        fetch(responsesUrl, { headers }),
       ])
 
       if (analyticsRes.ok && responsesRes.ok) {
@@ -83,7 +91,10 @@ export default function AdminDashboard() {
     try {
       const res = await fetch('/api/admin/generate-link', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-password': 'MiddleZ2024!'
+        },
         body: JSON.stringify(formData),
       })
 
@@ -132,7 +143,11 @@ export default function AdminDashboard() {
 
     try {
       // Fetch all responses without limit
-      const res = await fetch(`/api/admin/survey-responses?projectId=${selectedProjectId}&limit=1000`)
+      const res = await fetch(`/api/admin/survey-responses?projectId=${selectedProjectId}&limit=1000`, {
+        headers: {
+          'x-admin-password': 'MiddleZ2024!'
+        }
+      })
       const data = await res.json()
 
       if (!data.responses || data.responses.length === 0) {
