@@ -64,8 +64,8 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p className="mt-4">
                 You can withdraw your testimonial consent at any time by contacting us at{' '}
-                <a href="mailto:privacy@middlez.com" className="text-blue-600 underline">
-                  privacy@middlez.com
+                <a href="mailto:hello@middlez.com.au" className="text-blue-600 underline">
+                  hello@middlez.com.au
                 </a>
               </p>
             </section>
@@ -128,8 +128,8 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p className="mt-4">
                 To exercise these rights, contact us at{' '}
-                <a href="mailto:privacy@middlez.com" className="text-blue-600 underline">
-                  privacy@middlez.com
+                <a href="mailto:hello@middlez.com.au" className="text-blue-600 underline">
+                  hello@middlez.com.au
                 </a>
               </p>
             </section>
@@ -173,7 +173,7 @@ export default function PrivacyPolicyPage() {
               <p>If you have questions about this Privacy Policy or our data practices, please contact us:</p>
               <div className="bg-gray-50 p-6 rounded-lg mt-4">
                 <p><strong>Middle Z</strong></p>
-                <p>Email: <a href="mailto:privacy@middlez.com" className="text-blue-600 underline">privacy@middlez.com</a></p>
+                <p>Email: <a href="mailto:hello@middlez.com.au" className="text-blue-600 underline">hello@middlez.com.au</a></p>
                 <p>Website: <a href="https://middlez.com" className="text-blue-600 underline">https://middlez.com</a></p>
               </div>
             </section>

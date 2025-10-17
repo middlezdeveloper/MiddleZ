@@ -292,7 +292,7 @@ npm run build
 ## 🤝 Support
 
 For issues or questions:
-- Email: privacy@middlez.com
+- Email: hello@middlez.com.au
 - Documentation: https://middlez.com
 
 ## 📄 License

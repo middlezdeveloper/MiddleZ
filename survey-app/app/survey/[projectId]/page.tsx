@@ -797,7 +797,7 @@ export default function SurveyPage() {
                   Your responses will help us continuously improve our services and better serve our clients.
                 </p>
                 <div className="pt-4 text-sm text-gray-500">
-                  <p>Questions? Contact us at privacy@middlez.com</p>
+                  <p>Questions? Contact us at hello@middlez.com.au</p>
                 </div>
               </div>
             )}

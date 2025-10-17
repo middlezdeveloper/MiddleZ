@@ -92,8 +92,8 @@ export default function Home() {
           <p>© 2025 Middle Z Consulting. All rights reserved.</p>
           <p className="mt-2">
             For questions or support:{' '}
-            <a href="mailto:privacy@middlez.com" className="text-blue-600 hover:underline">
-              privacy@middlez.com
+            <a href="mailto:hello@middlez.com.au" className="text-blue-600 hover:underline">
+              hello@middlez.com.au
             </a>
           </p>
         </footer>
