@@ -220,7 +220,7 @@ export default function SurveyPage() {
             {currentStep === 1 && (
               <div className="space-y-6">
                 <div>
-                  <h1 className="text-3xl font-bold mb-4">Welcome to the Middle Z Impact Survey</h1>
+                  <h1 className="text-3xl font-bold mb-4">Middle Z Impact Survey</h1>
                   <p className="text-gray-600 mb-2">Thank you for participating in our survey for:</p>
                   <h2 className="text-2xl font-bold text-[#8a3cde] mb-6">{projectInfo?.projectName}</h2>
                 </div>
