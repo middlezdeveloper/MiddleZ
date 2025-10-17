@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, Copy, CheckCircle, Plus, ExternalLink, BarChart3, ListIcon } from 'lucide-react'
+import { Loader2, Copy, CheckCircle, Plus, ExternalLink, BarChart3, ListIcon, Download } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts'
 
 const COLORS = ['#10b981', '#f59e0b', '#ef4444']
@@ -125,6 +125,138 @@ export default function AdminDashboard() {
     await navigator.clipboard.writeText(url)
     setCopiedId(id)
     setTimeout(() => setCopiedId(null), 2000)
+  }
+
+  const exportToCSV = async () => {
+    if (!selectedProjectId) return
+
+    try {
+      // Fetch all responses without limit
+      const res = await fetch(`/api/admin/survey-responses?projectId=${selectedProjectId}&limit=1000`)
+      const data = await res.json()
+
+      if (!data.responses || data.responses.length === 0) {
+        alert('No responses to export')
+        return
+      }
+
+      // Define CSV headers
+      const headers = [
+        'Date Completed',
+        'Respondent Name',
+        'Email',
+        'Organization',
+        'Is Anonymous',
+        // A. Value Realised
+        'Value: Objectives Delivered (1-5)',
+        'Value: Organisation Created (1-5)',
+        'Value: Financial Estimate',
+        'Value: Tangible Changes',
+        'Value: Biggest Impact',
+        'Value: Direct Attribution',
+        // B. Capability Uplift
+        'Capability: Skills Built (1-5)',
+        'Capability: Applied (1-5)',
+        'Capability: New Ability',
+        'Capability: Internal Strengths',
+        'Capability: Support Needed',
+        // C. Experience Quality
+        'Experience: Satisfaction (1-5)',
+        'Experience: NPS (0-10)',
+        'Experience: NPS Reason',
+        'Experience: Most Valuable',
+        'Experience: Could Improve',
+        'Experience: Change One Thing',
+        // D. Sustainability
+        'Sustainability: Confidence (1-5)',
+        'Sustainability: Readiness (1-5)',
+        'Sustainability: Momentum Needs',
+        'Sustainability: Barriers',
+        'Sustainability: Amplify Impact',
+        // E. Improvement
+        'Improvement: Future Differently',
+        'Improvement: More Impactful',
+        'Improvement: Other Reflections',
+        // Testimonial
+        'Testimonial Consent',
+        'Attribution Preference',
+        'Usage Permissions',
+        'Commercially Sensitive Notes',
+        'Time Taken (seconds)',
+      ]
+
+      // Convert responses to CSV rows
+      const rows = data.responses.map((r: any) => [
+        new Date(r.completedAt).toLocaleString(),
+        r.respondentName || '',
+        r.respondentEmail || '',
+        r.respondentOrganization || '',
+        r.isAnonymous ? 'Yes' : 'No',
+        r.valueObjectivesDelivered || '',
+        r.valueOrganisationCreated || '',
+        r.valueFinancialEstimate || '',
+        r.valueTangibleChanges || '',
+        r.valueBiggestImpact || '',
+        r.valueDirectAttribution || '',
+        r.capabilitySkillsBuilt || '',
+        r.capabilityApplied || '',
+        r.capabilityNewAbility || '',
+        r.capabilityInternalStrengths || '',
+        r.capabilitySupportNeeded || '',
+        r.experienceSatisfaction || '',
+        r.experienceNPS || '',
+        r.experienceNPSReason || '',
+        r.experienceMostValuable || '',
+        r.experienceCouldImprove || '',
+        r.experienceChangeOne || '',
+        r.sustainabilityConfidence || '',
+        r.sustainabilityReadiness || '',
+        r.sustainabilityMomentumNeeds || '',
+        r.sustainabilityBarriers || '',
+        r.sustainabilityAmplifyImpact || '',
+        r.improvementFutureDifferently || '',
+        r.improvementMoreImpactful || '',
+        r.improvementOtherReflections || '',
+        r.consentUseAsTestimonial ? 'Yes' : 'No',
+        r.attributionPreference || '',
+        Array.isArray(r.usagePermissions) ? r.usagePermissions.join('; ') : '',
+        r.commerciallySensitiveNotes || '',
+        r.timeTakenSeconds || '',
+      ])
+
+      // Escape CSV values
+      const escapeCSV = (value: any) => {
+        if (value == null) return ''
+        const str = String(value)
+        if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+          return `"${str.replace(/"/g, '""')}"`
+        }
+        return str
+      }
+
+      // Build CSV content
+      const csvContent = [
+        headers.map(escapeCSV).join(','),
+        ...rows.map((row: any[]) => row.map(escapeCSV).join(','))
+      ].join('\n')
+
+      // Download CSV
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      const projectName = projects.find(p => p.id === selectedProjectId)?.projectName || selectedProjectId
+      const fileName = `survey-responses-${projectName.replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.csv`
+
+      link.setAttribute('href', url)
+      link.setAttribute('download', fileName)
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } catch (error) {
+      console.error('Export error:', error)
+      alert('Failed to export responses')
+    }
   }
 
   const viewProjectAnalytics = (projectId: string) => {
@@ -591,7 +723,13 @@ function AnalyticsView({ analytics, responses, projectId, onBack }: any) {
 
       {/* Recent Responses */}
       <Card className="p-6">
-        <h2 className="text-xl font-bold mb-4">Recent Responses</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Recent Responses</h2>
+          <Button onClick={exportToCSV} variant="outline">
+            <Download className="w-4 h-4 mr-2" />
+            Export to CSV
+          </Button>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
