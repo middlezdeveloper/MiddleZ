@@ -40,7 +40,7 @@ export default function SurveyPage() {
     defaultValues: {
       isAnonymous: false,
       privacyPolicyAccepted: false,
-      consentToFeedback: false,
+      consentToFeedback: true,
       consentUseAsTestimonial: false,
       testimonialReleaseAccepted: false,
       usagePermissions: [],
@@ -50,7 +50,6 @@ export default function SurveyPage() {
   // Watch form values for conditional rendering
   const watchIsAnonymous = watch('isAnonymous')
   const watchPrivacyAccepted = watch('privacyPolicyAccepted')
-  const watchConsentFeedback = watch('consentToFeedback')
   const watchTestimonialConsent = watch('consentUseAsTestimonial')
   const watchValueObjectives = watch('valueObjectivesDelivered')
   const watchValueOrganisation = watch('valueOrganisationCreated')
@@ -114,7 +113,7 @@ export default function SurveyPage() {
         break
       case 2:
         // Your Information - privacy checkboxes required
-        fieldsToValidate = ['privacyPolicyAccepted', 'consentToFeedback']
+        fieldsToValidate = ['privacyPolicyAccepted']
         break
       case 3:
         // Value Realised
@@ -328,18 +327,6 @@ export default function SurveyPage() {
                         </a>
                         {errors.privacyPolicyAccepted && (
                           <span className="text-red-600 block mt-1">{errors.privacyPolicyAccepted.message}</span>
-                        )}
-                      </label>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <Checkbox
-                        checked={watchConsentFeedback}
-                        onCheckedChange={(checked) => setValue('consentToFeedback', checked as boolean)}
-                      />
-                      <label className="text-sm">
-                        I consent to providing feedback
-                        {errors.consentToFeedback && (
-                          <span className="text-red-600 block mt-1">{errors.consentToFeedback.message}</span>
                         )}
                       </label>
                     </div>

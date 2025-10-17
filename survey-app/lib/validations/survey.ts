@@ -32,9 +32,7 @@ export const surveySchema = z.object({
   privacyPolicyAccepted: z.boolean().refine((val) => val === true, {
     message: 'You must accept the privacy policy',
   }),
-  consentToFeedback: z.boolean().refine((val) => val === true, {
-    message: 'You must consent to providing feedback',
-  }),
+  consentToFeedback: z.boolean().default(true),
 
   // A. Value Realised
   valueObjectivesDelivered: z.number().min(1).max(5),
