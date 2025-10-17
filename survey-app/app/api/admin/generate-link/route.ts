@@ -135,3 +135,43 @@ export async function GET(req: NextRequest) {
     )
   }
 }
+
+// Delete project
+export async function DELETE(req: NextRequest) {
+  try {
+    // Check admin password
+    const authHeader = req.headers.get('x-admin-password')
+    if (authHeader !== 'MiddleZ2024!') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(req.url)
+    const projectId = searchParams.get('projectId')
+
+    if (!projectId) {
+      return NextResponse.json(
+        { error: 'Project ID is required' },
+        { status: 400 }
+      )
+    }
+
+    // Delete project (cascade will delete all responses)
+    await prisma.surveyProject.delete({
+      where: { id: projectId },
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: 'Project deleted successfully',
+    })
+  } catch (error) {
+    console.error('Error deleting project:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete project' },
+      { status: 500 }
+    )
+  }
+}

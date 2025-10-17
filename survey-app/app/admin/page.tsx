@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, Copy, CheckCircle, Plus, ExternalLink, BarChart3, ListIcon, Download } from 'lucide-react'
+import { Loader2, Copy, CheckCircle, Plus, ExternalLink, BarChart3, ListIcon, Download, Trash2 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts'
 
 const COLORS = ['#10b981', '#f59e0b', '#ef4444']
@@ -136,6 +136,38 @@ export default function AdminDashboard() {
     await navigator.clipboard.writeText(url)
     setCopiedId(id)
     setTimeout(() => setCopiedId(null), 2000)
+  }
+
+  const handleDeleteProject = async (projectId: string, projectName: string) => {
+    // Prompt for password confirmation
+    const password = window.prompt(
+      `⚠️ WARNING: This will permanently delete "${projectName}" and ALL ${projects.find(p => p.id === projectId)?.responseCount || 0} responses.\n\nEnter admin password to confirm:`
+    )
+
+    if (password !== 'MiddleZ2024!') {
+      alert('Incorrect password. Deletion cancelled.')
+      return
+    }
+
+    try {
+      const res = await fetch(`/api/admin/generate-link?projectId=${projectId}`, {
+        method: 'DELETE',
+        headers: {
+          'x-admin-password': 'MiddleZ2024!'
+        }
+      })
+
+      if (res.ok) {
+        setProjects(projects.filter(p => p.id !== projectId))
+        alert('Project deleted successfully')
+      } else {
+        const error = await res.json()
+        alert(`Error: ${error.error}`)
+      }
+    } catch (error) {
+      alert('Error deleting project')
+      console.error(error)
+    }
   }
 
   const exportToCSV = async () => {
@@ -555,6 +587,14 @@ export default function AdminDashboard() {
                           >
                             <BarChart3 className="w-4 h-4 mr-1" />
                             View Analytics
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDeleteProject(project.id, project.projectName)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
                       </div>
