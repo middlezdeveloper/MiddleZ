@@ -1,15 +1,15 @@
 # Middle Z Survey System
 
-A human-centered survey application for consulting engagement assessment using the Kirkpatrick 4 Levels framework and Net Promoter Score.
+A human-centered survey application for consulting engagement assessment using the HCD Impact Framework and Net Promoter Score.
 
 ## 🚀 Features
 
 - **9-Step Survey Flow**: Thoughtfully designed multi-step form
-- **Kirkpatrick 4 Levels Framework**:
-  - Level 1: Reaction (satisfaction)
-  - Level 2: Learning (insights gained)
-  - Level 3: Behaviour (application)
-  - Level 4: Results (tangible outcomes)
+- **HCD Impact Framework**:
+  - Value: Objectives delivered and challenges addressed
+  - Insights: New perspectives and shifts in thinking
+  - Application: Real-world implementation
+  - Impact: Tangible benefits and outcomes
 - **Net Promoter Score (NPS)**: Interactive 0-10 scale with categorization
 - **Testimonial Management**: Granular consent with attribution preferences
 - **Privacy-First**: GDPR & APP compliant with full consent tracking
@@ -252,7 +252,7 @@ Modify steps in:
 ## 📈 Analytics Features
 
 - **NPS Calculation**: Automated promoter/passive/detractor categorization
-- **Kirkpatrick Averages**: All 4 levels tracked
+- **HCD Framework Metrics**: All 4 dimensions tracked
 - **Word Cloud**: One-word reflections visualization
 - **Trend Analysis**: NPS over time
 - **Testimonial Consent Rate**: Track consent statistics

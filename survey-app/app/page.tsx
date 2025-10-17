@@ -23,18 +23,18 @@ export default function Home() {
         <Card className="p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">About This System</h2>
           <p className="text-gray-700 mb-4">
-            Our survey system uses the <strong>Kirkpatrick 4 Levels</strong> framework combined with{' '}
+            Our survey system uses the <strong>HCD Impact Framework</strong> combined with{' '}
             <strong>Net Promoter Score</strong> to measure the impact and effectiveness of consulting engagements.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 mt-6">
             <div className="bg-blue-50 p-6 rounded-lg">
-              <h3 className="font-semibold text-lg mb-3">Kirkpatrick 4 Levels</h3>
+              <h3 className="font-semibold text-lg mb-3">HCD Impact Framework</h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li><strong>Level 1:</strong> Reaction - Immediate satisfaction</li>
-                <li><strong>Level 2:</strong> Learning - New insights gained</li>
-                <li><strong>Level 3:</strong> Behaviour - Application of learning</li>
-                <li><strong>Level 4:</strong> Results - Tangible outcomes</li>
+                <li><strong>Value:</strong> Objectives delivered and challenges addressed</li>
+                <li><strong>Insights:</strong> New perspectives and shifts in thinking</li>
+                <li><strong>Application:</strong> Real-world implementation</li>
+                <li><strong>Impact:</strong> Tangible benefits and outcomes</li>
               </ul>
             </div>
 
