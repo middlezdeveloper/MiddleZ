@@ -10,7 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Middle Z Survey - Consulting Engagement Assessment",
-  description: "Human-centered survey system using Kirkpatrick 4 Levels and Net Promoter Score",
+  description: "Human-centered survey system using the HCD Impact Framework and Net Promoter Score",
   icons: {
     icon: '/favicon.svg',
   },
