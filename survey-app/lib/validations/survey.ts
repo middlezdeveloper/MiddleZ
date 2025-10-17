@@ -12,8 +12,6 @@ export const attributionPreferences = [
 ] as const
 
 export const usagePermissionOptions = [
-  'edit_with_approval',
-  'excerpt',
   'website',
   'proposals',
   'social_media',
