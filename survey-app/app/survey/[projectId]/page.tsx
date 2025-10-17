@@ -99,6 +99,11 @@ export default function SurveyPage() {
     }
   }, [params.projectId, setValue])
 
+  // Scroll to top when step changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentStep])
+
   const nextStep = async () => {
     let fieldsToValidate: any[] = []
 
@@ -136,15 +141,11 @@ export default function SurveyPage() {
     const isValid = fieldsToValidate.length === 0 || await trigger(fieldsToValidate as any)
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, TOTAL_STEPS))
-      // Scroll to top of page
-      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
   const prevStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1))
-    // Scroll to top of page
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const onSubmit = async (data: SurveyFormData) => {
