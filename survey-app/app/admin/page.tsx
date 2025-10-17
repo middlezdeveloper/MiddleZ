@@ -604,6 +604,7 @@ export default function AdminDashboard() {
             responses={responses}
             projectId={selectedProjectId}
             onBack={() => setView('projects')}
+            onExport={exportToCSV}
           />
         )}
       </div>
@@ -612,7 +613,7 @@ export default function AdminDashboard() {
 }
 
 // Analytics Component
-function AnalyticsView({ analytics, responses, projectId, onBack }: any) {
+function AnalyticsView({ analytics, responses, projectId, onBack, onExport }: any) {
   if (!analytics || !responses) {
     return (
       <div className="text-center py-12">
@@ -725,7 +726,7 @@ function AnalyticsView({ analytics, responses, projectId, onBack }: any) {
       <Card className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Recent Responses</h2>
-          <Button onClick={exportToCSV} variant="outline">
+          <Button onClick={onExport} variant="outline">
             <Download className="w-4 h-4 mr-2" />
             Export to CSV
           </Button>
