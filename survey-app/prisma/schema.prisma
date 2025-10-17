@@ -1,0 +1,171 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SurveyProject {
+  id              String            @id @default(cuid())
+  projectName     String
+  sowNumber       String?           // Statement of Work number
+  clientName      String?
+  engagementDate  DateTime?
+  engagementType  String?
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  responses       SurveyResponse[]
+
+  @@map("survey_projects")
+}
+
+model SurveyResponse {
+  id                              String    @id @default(cuid())
+  projectId                       String
+
+  // Respondent Information (optional)
+  respondentName                  String?
+  respondentEmail                 String?
+  respondentOrganization          String?
+  isAnonymous                     Boolean   @default(false)
+
+  // Privacy Consent
+  privacyPolicyAccepted           Boolean
+  consentToFeedback               Boolean
+
+  // A. Value Realised
+  valueObjectivesDelivered        Int       // 1-5: To what extent did the engagement deliver on its stated objectives?
+  valueOrganisationCreated        Int       // 1-5: How much value do you believe was created for your organisation?
+  valueFinancialEstimate          String?   @db.Text // Estimate of financial or operational improvement
+  valueTangibleChanges            String?   @db.Text // What tangible changes have you seen since the engagement?
+  valueBiggestImpact              String?   @db.Text // Which of our recommendations had the biggest impact?
+  valueDirectAttribution          String?   @db.Text // What results can be directly attributed to this work?
+
+  // B. Capability Uplift
+  capabilitySkillsBuilt           Int       // 1-5: To what extent did this engagement build your team's skills or confidence?
+  capabilityApplied               Int       // 1-5: To what extent are these new capabilities being applied?
+  capabilityNewAbility            String?   @db.Text // What's one thing you or your team can now do that you couldn't before?
+  capabilityInternalStrengths     String?   @db.Text // What internal strengths have been built as a result?
+  capabilitySupportNeeded         String?   @db.Text // How might we better support you in sustaining these capabilities?
+
+  // C. Experience Quality
+  experienceSatisfaction          Int       // 1-5: How satisfied were you with our overall collaboration?
+  experienceNPS                   Int       // 0-10: How likely are you to recommend working with us?
+  experienceNPSReason             String?   @db.Text // What is the primary reason for your score?
+  experienceMostValuable          String?   @db.Text // What part of the experience felt most valuable or memorable?
+  experienceCouldImprove          String?   @db.Text // What could have made the process smoother or more engaging?
+  experienceChangeOne             String?   @db.Text // If you could change one thing about how we worked together, what would it be?
+
+  // D. Sustainability & Future Impact
+  sustainabilityConfidence        Int       // 1-5: How confident are you that the results will be sustained?
+  sustainabilityReadiness         Int       // 1-5: How ready do you feel to continue the work independently?
+  sustainabilityMomentumNeeds     String?   @db.Text // What do you need to keep the momentum going?
+  sustainabilityBarriers          String?   @db.Text // What potential barriers might limit continued success?
+  sustainabilityAmplifyImpact     String?   @db.Text // How could we help you amplify the impact further over time?
+
+  // E. Improvement Insights
+  improvementFutureDifferently    String?   @db.Text // What would you like to see done differently in future engagements?
+  improvementMoreImpactful        String?   @db.Text // What could we do to make our collaboration even more impactful?
+  improvementOtherReflections     String?   @db.Text // Any other reflections, stories, or feedback you'd like to share?
+
+  // Testimonial Consent
+  consentUseAsTestimonial         Boolean   @default(false)
+  attributionPreference           String?   // Full, Name+Role, Role+Company, etc.
+
+  // Usage Permissions (stored as JSON array)
+  usagePermissions                Json?     // Array of: edit_with_approval, excerpt, website, proposals, social, case_studies, reference_calls
+
+  commerciallySensitiveNotes      String?   @db.Text
+
+  // Legal & Compliance
+  consentTimestamp                DateTime  @default(now())
+  consentIpAddress                String?
+  testimonialReleaseAccepted      Boolean   @default(false)
+
+  // Metadata
+  completedAt                     DateTime  @default(now())
+  timeTakenSeconds                Int?
+
+  // Relations
+  project                         SurveyProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  testimonialUsage                TestimonialUsageLog[]
+
+  @@map("survey_responses")
+  @@index([projectId])
+  @@index([experienceNPS])
+  @@index([consentUseAsTestimonial])
+  @@index([completedAt])
+}
+
+model TestimonialUsageLog {
+  id                String          @id @default(cuid())
+  responseId        String
+  usageType         String          // website, proposal, social_media, case_study
+  usageLocation     String          // URL or description
+  usageContext      String?         @db.Text
+  usedAt            DateTime        @default(now())
+
+  response          SurveyResponse  @relation(fields: [responseId], references: [id], onDelete: Cascade)
+
+  @@map("testimonial_usage_log")
+  @@index([responseId])
+}
+
+// NextAuth models for authentication
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
