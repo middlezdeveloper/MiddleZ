@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -28,29 +27,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          id="leadfeeder"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(ss,ex){
-                window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));};
-                (function(d,s){
-                  fs=d.getElementsByTagName(s)[0];
-                  function ce(src){
-                    var cs=d.createElement(s);
-                    cs.src=src;
-                    cs.async=1;
-                    fs.parentNode.insertBefore(cs,fs);
-                  };
-                  ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js');
-                })(document,'script');
-              })('p1e024Bl3YW8GB6d');
-            `,
-          }}
-        />
-      </head>
       <body className={`${inter.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
